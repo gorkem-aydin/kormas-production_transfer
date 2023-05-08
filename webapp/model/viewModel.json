@@ -1,0 +1,10 @@
+{
+  "BarcodeForm": {
+    "Xchpf": false
+  },
+  "DeleteEnabled": false,
+  "ChargEnabled": false,
+  "visibleGenericTag": false,
+  "visibleHeader": true,
+  "visibleBackButton": false
+}

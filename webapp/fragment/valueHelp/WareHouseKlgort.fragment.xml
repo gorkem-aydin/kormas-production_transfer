@@ -1,0 +1,6 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog  title="{i18n>KlgortSH}" class="sapUiPopupWithPadding" items="{viewModel>/KlgortResults}" search="onSearchKlgort"
+		confirm="onCloseKlgort" cancel="onCloseKlgort">
+		<StandardListItem  title="{viewModel>Lgort}" description="{viewModel>Lgobe}" info="{viewModel>Werks}"/>
+	</SelectDialog>
+</core:FragmentDefinition>

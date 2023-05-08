@@ -1,0 +1,39 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<Table selectionChange="onPressItem" mode="SingleSelectLeft" id="idTable" width="auto" items="{/LogSet}" class="sapUiResponsiveMargin">
+		<headerToolbar>
+			<Toolbar id="addItemToolbar">
+				<ToolbarSpacer/>
+				<Button text="{i18n>deleteItem}" press="onPressDeleteItem" icon="sap-icon://delete" tooltip="{i18n>deleteItem}"
+					enabled="{viewModel>/DeleteEnabled}"/>
+			</Toolbar>
+		</headerToolbar>
+		<columns>
+			<Column hAlign="Center" demandPopin="true" minScreenWidth="Tablet">
+				<Text text="{i18n>Klgort}"/>
+			</Column>
+			<Column hAlign="Center" minScreenWidth="Tablet" demandPopin="true">
+				<Text text="{i18n>Hlgort}"/>
+			</Column>
+			<Column hAlign="Center" minScreenWidth="Tablet" demandPopin="true">
+				<Text text="{i18n>Matnr}"/>
+			</Column>
+			<Column hAlign="Center" minScreenWidth="Tablet" demandPopin="true">
+				<Text text="{i18n>Xchpf}"/>
+			</Column>
+			<Column hAlign="Center" minScreenWidth="Tablet" demandPopin="true">
+				<Text text="{i18n>Quantity}"/>
+			</Column>
+		</columns>
+		<items>
+			<ColumnListItem >
+				<cells>
+					<ObjectNumber state="Warning" number="{Klgort}"/>
+					<ObjectNumber state="Information" number="{Hlgort}"/>
+					<ObjectNumber state="Error" number="{Matnr}"/>
+					<ObjectNumber state="Success" number="{Charg}"/>
+					<ObjectNumber number="{path:'Quan' ,formatter: '.formatter.numberUnit'}" unit="{Unit}"/>
+				</cells>
+			</ColumnListItem>
+		</items>
+	</Table>
+</core:FragmentDefinition>

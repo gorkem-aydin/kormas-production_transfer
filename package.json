@@ -1,0 +1,42 @@
+{
+  "name": "com.kormas.productiontrns",
+  "version": "0.0.1",
+  "description": "",
+  "main": "webapp/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "fiori run --open \"test/flpSandbox.html?sap-client=100&sap-ui-xx-viewCache=false#comkormasproductiontrns-display\"",
+    "start-local": "fiori run --config ./ui5-local.yaml --open \"test/flpSandboxMockServer.html?sap-client=100&sap-ui-xx-viewCache=false#comkormasproductiontrns-display\"",
+    "start-noflp": "fiori run --open \"index.html?sap-client=100&sap-ui-xx-viewCache=false\"",
+    "start-variants-management": "fiori run --open \"preview.html?sap-client=100&sap-ui-xx-viewCache=false&fiori-tools-rta-mode=true&sap-ui-rta-skip-flex-validation=true#preview-app\"",
+    "build": "ui5 build -a --clean-dest --include-task=generateCachebusterInfo",
+    "deploy": "fiori verify",
+    "deploy-config": "fiori add deploy-config",
+    "start-mock": "fiori run --open \"test/flpSandboxMockServer.html?sap-client=100&sap-ui-xx-viewCache=false#comkormasproductiontrns-display\"",
+    "suite-tests": "fiori run --open 'test/testsuite.qunit.html'",
+    "unit-tests": "fiori run --open 'test/unit/unitTests.qunit.html'",
+    "int-tests": "fiori run --open 'test/integration/opaTests.qunit.html'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gorkem-aydin/kormas-production_transfer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gorkem-aydin/kormas-production_transfer/issues"
+  },
+  "homepage": "https://github.com/gorkem-aydin/kormas-production_transfer#readme",
+  "private": true,
+  "sapuxLayer": "CUSTOMER_BASE",
+  "keywords": [
+    "ui5",
+    "openui5",
+    "sapui5"
+  ],
+  "devDependencies": {
+    "@ui5/cli": "^3.0.0",
+    "@sap/ux-ui5-tooling": "1",
+    "rimraf": "3.0.2"
+  }
+}

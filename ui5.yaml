@@ -1,0 +1,32 @@
+specVersion: "2.6"
+metadata:
+  name: com.kormas.productiontrns
+type: application
+server:
+  customMiddleware:
+    - name: fiori-tools-proxy
+      afterMiddleware: compression
+      configuration:
+        ignoreCertError: false
+        backend:
+          - path: /sap
+            url: http://10.10.100.11:8000
+            client: "100"
+            scp: true
+            destination: Kormas
+        ui5:
+          path:
+            - /resources
+            - /test-resources
+          url: https://ui5.sap.com
+    - name: fiori-tools-appreload
+      afterMiddleware: compression
+      configuration:
+        port: 35729
+        path: webapp
+        delay: 300
+    - name: fiori-tools-preview
+      afterMiddleware: fiori-tools-appreload
+      configuration:
+        component: com.kormas.productiontrns
+        ui5Theme: sap_fiori_3
