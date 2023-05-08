@@ -29,6 +29,9 @@ sap.ui.define(
        * @public
        */
       onInit: function () {
+        //test
+        
+        
         this.getRouter()
           .getRoute("main")
           .attachPatternMatched(this._onObjectMatched, this);
