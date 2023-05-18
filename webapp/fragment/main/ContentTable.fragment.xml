@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-	<Table selectionChange="onPressItem" mode="SingleSelectLeft" id="idTable" width="auto" items="{/LogSet}" class="sapUiResponsiveMargin">
+	<Table selectionChange="onPressItem" mode="SingleSelectLeft" id="idTable" width="auto" items="{/LogSet}" >
 		<headerToolbar>
 			<Toolbar id="addItemToolbar">
 				<ToolbarSpacer/>

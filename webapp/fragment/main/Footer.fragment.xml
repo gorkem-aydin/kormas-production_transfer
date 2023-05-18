@@ -1,14 +1,17 @@
 <c:FragmentDefinition xmlns="sap.m" xmlns:c="sap.ui.core">
 	<OverflowToolbar>
-	   <Button
+	  	<Button  text="{i18n>back}" press="onBack"  tooltip="{i18n>back}" type="Back"/>
+        <Button width="auto" id="_IDGenButton3" type="Transparent" text="{i18n>stockQuery}" press="onStockQuery"/>
+       <Button
                     icon="sap-icon://alert"
                     text="{=${message>/}.length}"
                     visible="{=${message>/}.length > 0}"
                     type="Emphasized"
                     press="onMessagePopoverPress">
                 </Button>
+
 		<ToolbarSpacer/>
-		<Button  text="{i18n>clear}" press="onClear" icon="sap-icon://sys-cancel" tooltip="{i18n>clear}" type="Reject"/>
+		
 	<Button  text="{i18n>save}" press="onSave" icon="sap-icon://save" tooltip="{i18n>save}" type="Accept"/>
 	</OverflowToolbar>
 	

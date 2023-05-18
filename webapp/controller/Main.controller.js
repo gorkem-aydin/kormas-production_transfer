@@ -29,9 +29,6 @@ sap.ui.define(
        * @public
        */
       onInit: function () {
-        //test
-        
-        
         this.getRouter()
           .getRoute("main")
           .attachPatternMatched(this._onObjectMatched, this);
@@ -89,7 +86,7 @@ sap.ui.define(
               }
             }
           },
-          fnError = (err) => {},
+          fnError = (err) => { },
           fnFinally = () => {
             oViewModel.setProperty("/busy", false);
           };
@@ -107,12 +104,14 @@ sap.ui.define(
         let oLgnum = this.getModel("viewModel").getProperty("/EvLgnum"),
           oLgpla = oEvent.getSource().getValue(),
           oViewModel = this.getModel("viewModel"),
+          oInput = this.byId("idType"),
           fnSuccess = (oData) => {
             if (oData.Type === "E") {
               oViewModel.setProperty("/valueStateLgpla", "Error");
               oViewModel.setProperty("/valueStateLgplaText", oData.Message);
             } else {
               oViewModel.setProperty("/valueStateLgpla", "Success");
+
               jQuery.sap.delayedCall(200, this, function () {
                 this.getView().byId("idQuan").focus();
               });
@@ -120,7 +119,7 @@ sap.ui.define(
               //	this._onLgnumAuth(String(oLgpla), iControl);
             }
           },
-          fnError = (err) => {},
+          fnError = (err) => { },
           fnFinally = () => {
             oViewModel.setProperty("/busy", false);
           };
@@ -148,7 +147,7 @@ sap.ui.define(
               //   this._onPressAddItem(oClabs, oCharg, oLgort, oMatnr, oWerks);
             }
           },
-          fnError = (err) => {},
+          fnError = (err) => { },
           fnFinally = () => {
             oViewModel.setProperty("/busy", false);
           };
@@ -181,8 +180,8 @@ sap.ui.define(
 
         let oMessageModel = this.getModel("message");
 
-        //oViewModel.setProperty("/Hlgort", "");
-        // oViewModel.setProperty("/Klgort", "");
+        oViewModel.setProperty("/Hlgort", "");
+        oViewModel.setProperty("/Klgort", "");
         oViewModel.setProperty("/Barcode", "");
         oViewModel.setProperty("/BarcodeForm", "");
         oViewModel.setProperty("/Charg", "");
@@ -196,8 +195,8 @@ sap.ui.define(
       },
       onStockQuery: async function () {
         let oCrossAppNavigator = sap.ushell.Container.getService(
-            "CrossApplicationNavigation"
-          ), // get a handle on the global XAppNav service
+          "CrossApplicationNavigation"
+        ), // get a handle on the global XAppNav service
           hash =
             (oCrossAppNavigator &&
               oCrossAppNavigator.hrefForExternal({
@@ -213,41 +212,25 @@ sap.ui.define(
           },
         }); // navigate to Supplier application
       },
-      onValueHelpKlgort: function (oEvent) {
+      onValueHelpLgort: function (oEvent) {
         let sInputValue = oEvent.getSource().getValue(),
           oViewModel = this.getModel("viewModel");
         this.inputId = oEvent.getSource().getId();
         // create value help dialog
-        if (!this._valueHelpKlgort) {
-          this._valueHelpKlgort = sap.ui.xmlfragment(
-            "com.kormas.productiontrns.fragment.valueHelp.WareHouseKlgort",
+        if (!this._valueHelpLgort) {
+          this._valueHelpLgort = sap.ui.xmlfragment(
+            "com.kormas.productiontrns.fragment.valueHelp.Lgpla",
             this
           );
-          this.getView().addDependent(this._valueHelpKlgort);
+          this.getView().addDependent(this._valueHelpLgort);
         }
 
         //-------------------------------------------------------------//
         // open value help dialog filtered by the input value
-        this._valueHelpKlgort.open(sInputValue);
+        this._valueHelpLgort.open(sInputValue);
       },
-      onValueHelpHlgort: function (oEvent) {
-        let sInputValue = oEvent.getSource().getValue(),
-          oViewModel = this.getModel("viewModel");
-        this.inputId = oEvent.getSource().getId();
-        // create value help dialog
-        if (!this._valueHelpHlgort) {
-          this._valueHelpHlgort = sap.ui.xmlfragment(
-            "com.kormas.productiontrns.fragment.valueHelp.WareHouseHlgort",
-            this
-          );
-          this.getView().addDependent(this._valueHelpHlgort);
-        }
 
-        //-------------------------------------------------------------//
-        // open value help dialog filtered by the input value
-        this._valueHelpHlgort.open(sInputValue);
-      },
-      onSearchKlgort: function (oEvent) {
+      onSearchLgort: function (oEvent) {
         let sValue = oEvent.getParameter("value"),
           oFilter = new sap.ui.model.Filter({
             filters: [
@@ -272,185 +255,29 @@ sap.ui.define(
 
         oEvent.getSource().getBinding("items").filter(oFilter);
       },
-      onSearchHlgort: function (oEvent) {
-        let sValue = oEvent.getParameter("value"),
-          oFilter = new sap.ui.model.Filter({
-            filters: [
-              new sap.ui.model.Filter(
-                "Werks",
-                sap.ui.model.FilterOperator.Contains,
-                sValue
-              ),
-              new sap.ui.model.Filter(
-                "Lgort",
-                sap.ui.model.FilterOperator.Contains,
-                sValue
-              ),
-              new sap.ui.model.Filter(
-                "Lgobe",
-                sap.ui.model.FilterOperator.Contains,
-                sValue
-              ),
-            ],
-            and: false,
-          });
-        oEvent.getSource().getBinding("items").filter(oFilter);
-      },
 
-      onCloseKlgort: function (oEvent) {
-        let oSelectedItem = oEvent.getParameter("selectedItem"),
-          oViewModel = this.getModel("viewModel");
-        if (oSelectedItem) {
-          let oInput = this.byId(this.inputId);
-
-          if (oSelectedItem.getTitle() === "1000") {
-            sap.m.MessageBox.error(
-              this.getResourceBundle().getText("errorKlgort")
-            );
-            oViewModel.setProperty("/Klgort", "");
-          } else {
-            oInput.setValue(oSelectedItem.getTitle());
-            oInput.setDescription(oSelectedItem.getDescription());
-            oViewModel.setProperty("/GenericKlgort", oSelectedItem.getTitle());
-            oViewModel.setProperty(
-              "/GenericKlgortT",
-              oSelectedItem.getDescription()
-            );
-            oViewModel.setProperty("/Klgort", oSelectedItem.getTitle());
-
-            if (oViewModel.getProperty("/GenericHlgort")) {
-              //  this.getView().byId("_IDGenObjectPageLayout1").getShowAnchorBar(true);
-              //  this.getView().byId("_IDGenObjectPageLayout1").setToggleHeaderOnTitleClick(true);
-              oViewModel.setProperty("/visibleGenericTagK", true);
-              oViewModel.setProperty("/visibleHeader", false);
-              oViewModel.setProperty("/visibleBackButton", true);
-            }
-            jQuery.sap.delayedCall(200, this, function () {
-              this.getView().byId("_IDGenInput2").focus();
-            });
-            //     this._getLgnumType(oSelectedItem.getTitle());
-          }
-        }
-        oEvent.getSource().getBinding("items").filter([]);
-      },
-      onChangeKlgort: function (oEvent) {
-        let oKlgort = oEvent.getSource().getValue(),
-          oViewModel = this.getModel("viewModel"),
-          oHlgort = oViewModel.getProperty("/GenericHlgort"),
-          oInput = this.byId("_IDGenInput1"),
-          aKlgortResults = oViewModel.getProperty("/KlgortResults");
-        oInput.setDescription("");
-        if (oKlgort === "1000") {
-          sap.m.MessageBox.error(
-            this.getResourceBundle().getText("errorKlgort")
-          );
-          oViewModel.setProperty("/Klgort", "");
-          oViewModel.setProperty("/GenericKlgort", "");
-          oViewModel.setProperty("/GenericKlgortT", "");
-          return;
-        } else {
-          const oResults = aKlgortResults.filter(
-            (Klgort) => Klgort.Lgort === oKlgort
-          );
-          if (oResults.length > 0) {
-            if (!oHlgort) {
-              jQuery.sap.delayedCall(200, this, function () {
-                this.getView().byId("_IDGenInput2").focus();
-              });
-              //  this._getLgnumType(oKlgort);
-              oViewModel.setProperty("/visibleBackButton", false);
-              oViewModel.setProperty("/visibleHeader", true);
-            } 
-            else{
-              oViewModel.setProperty("/visibleBackButton", true);
-              oViewModel.setProperty("/visibleHeader", false); 
-            }
-
-            oViewModel.setProperty("/visibleGenericTagK", true);
-            oViewModel.setProperty("/GenericKlgort", oResults[0].Lgort);
-            oViewModel.setProperty("/GenericKlgortT", oResults[0].Lgobe);
-          } else {
-            oViewModel.setProperty("/visibleGenericTagK", false);
-            oViewModel.setProperty("/Klgort", "");
-            oViewModel.setProperty("/GenericKlgort", "");
-            oViewModel.setProperty("/GenericKlgortT", "");
-            sap.m.MessageBox.error(
-              this.getResourceBundle().getText("errorLgort")
-            );
-          }
-        }
-      },
-      onChangeHlgort: function (oEvent) {
-        let oViewModel = this.getModel("viewModel"),
-          aHlgortResults = oViewModel.getProperty("/HlgortResults"),
-          oHlgort = oEvent.getSource().getValue(),
-          oKlgort = oViewModel.getProperty("/GenericKlgort");
-        const oResults = aHlgortResults.filter(
-          (Hlgort) => Hlgort.Lgort === oHlgort
-        );
-        if (oResults.length > 0) {
-          oViewModel.setProperty("/visibleGenericTagH", true);
-          oViewModel.setProperty("/GenericHlgort", oResults[0].Lgort);
-          oViewModel.setProperty("/GenericHlgortT", oResults[0].Lgobe);
-
-          if (oKlgort) {
-            jQuery.sap.delayedCall(200, this, function () {
-              this.getView().byId("idBarcode").focus();
-            });
-                this._getLgnumType(oHlgort);
-            oViewModel.setProperty("/visibleBackButton", true);
-            oViewModel.setProperty("/visibleHeader", false);
-          }
-        } else {
-          oViewModel.setProperty("/visibleGenericTagH", false);
-          oViewModel.setProperty("/Hlgort", "");
-          oViewModel.setProperty("/GenericHlgort", "");
-          oViewModel.setProperty("/GenericHlgortT", "");
-          sap.m.MessageBox.error(
-            this.getResourceBundle().getText("errorLgort")
-          );
-        }
-      },
-      onCloseHlgort: function (oEvent) {
+      onCloseLgort: function (oEvent) {
         let oSelectedItem = oEvent.getParameter("selectedItem"),
           oViewModel = this.getModel("viewModel");
         if (oSelectedItem) {
           let oInput = this.byId(this.inputId);
           oInput.setValue(oSelectedItem.getTitle());
-          oInput.setDescription(oSelectedItem.getDescription());
-          oViewModel.setProperty("/GenericHlgort", oSelectedItem.getTitle());
-          oViewModel.setProperty(
-            "/GenericHlgortT",
-            oSelectedItem.getDescription()
-          );
-          oViewModel.setProperty("/Hlgort", oSelectedItem.getTitle());
-          if (oViewModel.getProperty("/GenericKlgort")) {
-            //  this.getView().byId("_IDGenObjectPageLayout1").setHeaderExpanded(false);
-            oViewModel.setProperty("/visibleHeader", false);
-            oViewModel.setProperty("/visibleGenericTagH", true);
-            oViewModel.setProperty("/visibleBackButton", true);
-          }
+
+          oViewModel.setProperty("/StockAddress", oSelectedItem.getTitle());
           jQuery.sap.delayedCall(200, this, function () {
-            this.getView().byId("idBarcode").focus();
+            this.getView().byId("idQuan").focus();
           });
-             this._getLgnumType(oSelectedItem.getTitle());
         }
         oEvent.getSource().getBinding("items").filter([]);
       },
-      onBackHeader: function () {
-        let oViewModel = this.getModel("viewModel");
-        oViewModel.setProperty("/visibleBackButton", false);
-        this.getView()
-          .byId("_IDGenObjectPageLayout1")
-          .setShowHeaderContent(true);
-        oViewModel.setProperty("/GenericHlgort", "");
-        oViewModel.setProperty("/GenericHlgortT", "");
-        oViewModel.setProperty("/GenericKlgort", "");
-        oViewModel.setProperty("/GenericKlgortT", "");
-        oViewModel.setProperty("/Klgort", "");
-        oViewModel.setProperty("/Hlgort", "");
-        this.getView().byId("_IDGenInput1").setDescription("");
-        this.getView().byId("_IDGenInput2").setDescription("");
+      onSuggest: function (oEvent) {
+        var sTerm = oEvent.getParameter("suggestValue");
+        var aFilters = [];
+        if (sTerm) {
+          aFilters.push(new Filter("Lgpla", FilterOperator.StartsWith, sTerm));
+        }
+
+        oEvent.getSource().getBinding("suggestionItems").filter(aFilters);
       },
       onMessagePopoverPress: async function (oEvent) {
         let oSourceControl = oEvent.getSource();
@@ -480,6 +307,10 @@ sap.ui.define(
           };
         this._saveData().then(fnSuccess).catch(fnError).finally(fnFinally);
       },
+      onBack: function () {
+        history.go(-1);
+
+      },
       /* =========================================================== */
       /* internal methods                                            */
       /* =========================================================== */
@@ -495,11 +326,12 @@ sap.ui.define(
               sap.m.MessageBox.error(oData.Message);
             } else {
               oViewModel.setProperty("/Form", oData);
-             // that._getLgnumType(oData.Klgort);
+
               that._getLgortValueHelp(oData.Werks);
+              that._getLgplaSH();
             }
           },
-          error: function (oError) {},
+          error: function (oError) { },
         });
       },
       _getMessagePopover: function () {
@@ -517,27 +349,7 @@ sap.ui.define(
         }
         return this._pMessagePopover;
       },
-      _getLgnumType: async function (oLgort) {
-        let oViewModel = this.getModel("viewModel"),
-          oWerks = oViewModel.getProperty("/Form/Werks"),
-          fnSuccess = (oData) => {
-            oViewModel.setProperty("/EvDepoTipi", oData.EvDepoTipi);
-            oViewModel.setProperty("/EvLgnum", oData.EvLgnum);
 
-            //oViewModel.setProperty("/EvDepoTipi", "EWM");
-            jQuery.sap.delayedCall(200, this, function () {
-              this.getView().byId("_IDGenInput1").focus();
-            });
-          },
-          fnError = (err) => {},
-          fnFinally = () => {
-            oViewModel.setProperty("/busy", false);
-          };
-        await this._getLgnumTypeDetail(oLgort, oWerks)
-          .then(fnSuccess)
-          .catch(fnError)
-          .finally(fnFinally);
-      },
       _onLgnumAuth: async function (oLgpla, iControl) {
         let oViewModel = this.getModel("viewModel"),
           fnSuccess = (oData) => {
@@ -563,7 +375,7 @@ sap.ui.define(
               }
             }
           },
-          fnError = (err) => {},
+          fnError = (err) => { },
           fnFinally = () => {
             oViewModel.setProperty("/busy", false);
           };
@@ -573,29 +385,15 @@ sap.ui.define(
           .finally(fnFinally);
       },
 
-      _getLgnumTypeDetail: async function (oLgort, oWerks) {
-        let oModel = this.getModel("commonService");
 
-        return new Promise((fnResolve, fnReject) => {
-          let oParams = {
-              success: fnResolve,
-              error: fnReject,
-            },
-            sPath = oModel.createKey("/LgnumTypeSet", {
-              IvLgort: oLgort,
-              IvWerks: oWerks,
-            });
-          oModel.read(sPath, oParams);
-        });
-      },
       _getBarcodeDetail: async function (oBarcode, oWerks) {
         let oModel = this.getModel("commonService");
 
         return new Promise((fnResolve, fnReject) => {
           let oParams = {
-              success: fnResolve,
-              error: fnReject,
-            },
+            success: fnResolve,
+            error: fnReject,
+          },
             sPath = oModel.createKey("/BarcodeSet", {
               IvBarcode: oBarcode,
               IvWerks: oWerks,
@@ -608,9 +406,9 @@ sap.ui.define(
 
         return new Promise((fnResolve, fnReject) => {
           let oParams = {
-              success: fnResolve,
-              error: fnReject,
-            },
+            success: fnResolve,
+            error: fnReject,
+          },
             sPath = oModel.createKey("/LgnumAuthCheckSet", {
               IvLgpla: oLgpla,
             });
@@ -622,9 +420,9 @@ sap.ui.define(
 
         return new Promise((fnResolve, fnReject) => {
           let oParams = {
-              success: fnResolve,
-              error: fnReject,
-            },
+            success: fnResolve,
+            error: fnReject,
+          },
             sPath = oModel.createKey("/AddressCheckSet", {
               IvLgnum: oLgnum,
               IvLgpla: oLgpla,
@@ -637,9 +435,9 @@ sap.ui.define(
 
         return new Promise((fnResolve, fnReject) => {
           let oParams = {
-              success: fnResolve,
-              error: fnReject,
-            },
+            success: fnResolve,
+            error: fnReject,
+          },
             sPath = oModel.createKey("/WarehouseStockCheckSet", {
               IvClabs: oClabs ? oClabs : "0",
               IvCharg: oCharg,
@@ -685,15 +483,15 @@ sap.ui.define(
         }
         if (oClabs === "" || oClabs === undefined) {
           sap.m.MessageBox.error(this.getResourceBundle().getText("errorQuantity"));
-          return ;
+          return;
         }
 
 
         let fnSuccess = (oData) => {
-            sap.ui.core.BusyIndicator.hide();
-            this.onClear();
-            this.getModel().refresh(true);
-          },
+          sap.ui.core.BusyIndicator.hide();
+          this.onClear();
+          this.getModel().refresh(true);
+        },
           fnError = (err) => {
             sap.ui.core.BusyIndicator.hide();
           },
@@ -777,9 +575,22 @@ sap.ui.define(
               oViewModel.setProperty("/HlgortResults", oData.results);
               oViewModel.setProperty("/KlgortResults", oData.results);
             },
-            error: function (oError) {},
+            error: function (oError) { },
           });
       },
+      _getLgplaSH: function () {
+        let oViewModel = this.getModel("viewModel");
+
+        this.getView()
+          .getModel("commonService")
+          .read("/LgplaSHSet", {
+            success: function (oData) {
+              oViewModel.setProperty("/LgortResults", oData.results);
+
+            },
+            error: function (oError) { },
+          });
+      }
     });
   }
 );

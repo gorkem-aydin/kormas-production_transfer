@@ -1,0 +1,47 @@
+<mvc:View xmlns:m="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.uxap"
+	controllerName="com.kormas.productiontrns.controller.First">
+	<ObjectPageLayout showHeaderContent="{viewModel>/visibleHeader}" id="_IDGenObjectPageLayout1" showFooter="true">
+		<headerTitle >
+			<ObjectPageDynamicHeaderTitle id="_IDGenObjectPageDynamicHeaderTitle1">
+				<heading></heading>
+				<actions>
+				
+				</actions>
+			</ObjectPageDynamicHeaderTitle>
+		</headerTitle>
+		<headerContent id="_IDGenObjectPageLayout31">
+			<m:FlexBox width="auto" direction="Column" alignItems="Baseline" >
+				<m:FlexBox width="auto" fitContainer="true" direction="Row" alignItems="Start" >
+					<m:GenericTag id="_IDGenGenericTag1" text="{i18n>StockNumber}" design="StatusIconHidden" status="Error" >
+						<m:ObjectNumber id="_IDGenObjectNumber1" state="Error" emphasized="false" number="{viewModel>/Form/Whnumwme}"/>
+					</m:GenericTag>
+					<m:GenericTag id="_IDGenGenericTag2" text="{i18n>Werks}" design="StatusIconHidden" status="Warning" >
+						<m:ObjectNumber id="_IDGenObjectNumber2" state="Warning" emphasized="false" number="{viewModel>/Form/Werks}"/>
+					</m:GenericTag>
+				</m:FlexBox>
+				<m:FlexBox direction="Row" alignItems="Start" >
+					<m:GenericTag id="_IDGenGenericTag3" text="{i18n>Klgort}" design="StatusIconHidden" status="Success" >
+						<m:ObjectNumber  id="_IDGenObjectNumber3" state="Success" emphasized="false" number="{viewModel>/GenericKlgort}-{viewModel>/GenericKlgortT}"/>
+					</m:GenericTag>
+				</m:FlexBox>
+				<m:FlexBox direction="Row" alignItems="Start" >
+					<m:GenericTag id="_IDGenGenericTag4" text="{i18n>Hlgort}" design="StatusIconHidden" status="Success" >
+						<m:ObjectNumber id="_IDGenObjectNumber4" state="Success" emphasized="false" number="{viewModel>/GenericHlgort}-{viewModel>/GenericHlgortT}"/>
+					</m:GenericTag>
+				</m:FlexBox>
+			</m:FlexBox>
+		</headerContent>
+		<sections>
+			<ObjectPageSection id="_IDGenObjectPageSection1">
+				<subSections>
+					<ObjectPageSubSection id="_IDGenObjectPageSubSection1">
+						<core:Fragment type="XML" fragmentName="com.kormas.productiontrns.fragment.first.Header"/>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+		</sections>
+		<footer>
+			<core:Fragment type="XML" fragmentName="com.kormas.productiontrns.fragment.first.Footer"/>
+		</footer>
+	</ObjectPageLayout>
+</mvc:View>

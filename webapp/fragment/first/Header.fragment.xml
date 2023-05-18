@@ -3,20 +3,18 @@
 		<f:SimpleForm editable="true" id="idHeaderSimpleForm" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanM="4" labelSpanS="4"
 			emptySpanXL="0" columnsXL="2" singleContainerFullSize="false">
 			<Label id="_IDGenLabel1" text="{i18n>Klgort}"/>
-			<Input showValueHelp="true"  change="onChangeKlgort" valueHelpRequest="onValueHelpKlgort" id="_IDGenInput1" placeholder="{i18n>startKlgort}"
+			<Input showValueHelp="true" submit="onChangeKlgort" valueHelpRequest="onValueHelpKlgort" id="_IDGenInput1" placeholder="{i18n>startKlgort}"
 				value="{viewModel>/Klgort}" valueState="{viewModel>/valueStateKlgort}" valueStateText="{viewModel>/valueStateKlgortT}">
 				<layoutData>
-					<l:GridData id="_IDGenGridData12" span="XL4 L4 M4 S6"/>
+					<l:GridData id="_IDGenGridData12"  span="XL8 L8 M8 S8"/>
 				</layoutData>
 			</Input>
-		</f:SimpleForm>
-		<f:SimpleForm id="_IDGenSimpleForm1" editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanM="4" labelSpanS="4"
-			emptySpanXL="0" columnsXL="2" singleContainerFullSize="false">
+
 			<Label id="_IDGenLabel2" text="{i18n>Hlgort}"/>
-			<Input  change="onChangeHlgort" valueHelpRequest="onValueHelpHlgort" id="_IDGenInput2" showValueHelp="true" value="{viewModel>/Hlgort}" valueState="{viewModel>/valueStateHlgort}"
+			<Input width="auto" change="onChangeHlgort" valueHelpRequest="onValueHelpHlgort" id="_IDGenInput2" showValueHelp="true" value="{viewModel>/Hlgort}" valueState="{viewModel>/valueStateHlgort}"
 				valueStateText="{viewModel>/valueStateHlgortT}">
 				<layoutData>
-					<l:GridData id="_IDGenGridData2" span="XL4 L4 M4 S6"/>
+					<l:GridData id="_IDGenGridData2"  span="XL8 L8 M8 S8"/>
 				</layoutData>
 			</Input>
 		</f:SimpleForm>

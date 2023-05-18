@@ -1,64 +1,70 @@
-<core:FragmentDefinition 	 xmlns="sap.m" xmlns:core="sap.ui.core"  xmlns:f="sap.ui.layout.form" 	  xmlns:l="sap.ui.layout">
-
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout">
+	<l:Grid defaultSpan="XL6 L6 M6 S12">
+		<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanM="4" labelSpanS="4" emptySpanXL="0" columnsXL="2"
+			singleContainerFullSize="false">
+			<Label text="{i18n>Barcode}"/>
+			<Input maxLength="13" id="idBarcode" value="{viewModel>/Barcode}" change="onChangeBarcode" submit="onChangeBarcode">
+				<layoutData>
+					<l:GridData span="XL4 L4 M4 S6"/>
+				</layoutData>
+			</Input>
+			<Label text="{i18n>Matnr}"/>
+			<Text text="{viewModel>/BarcodeForm/Matnr}">
+				<layoutData>
+					<l:GridData span="XL4 L4 M4 S6"/>
+				</layoutData>
+			</Text>
+			<Label text="{i18n>Maktx}"/>
+			<Text text="{viewModel>/BarcodeForm/Maktx}">
+				<layoutData>
+					<l:GridData span="XL4 L4 M4 S6"/>
+				</layoutData>
+			</Text>
 		
-
-<l:Grid defaultSpan="XL6 L6 M6 S12">
-<f:SimpleForm editable="true"  layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanM="4" labelSpanS="4" emptySpanXL="0"  columnsXL="2"   singleContainerFullSize="false">
-
-<Label  text="{i18n>Barcode}"/>
-<Input id="idBarcode" value="{viewModel>/Barcode}" change="onChangeBarcode" submit="onChangeBarcode">
-<layoutData>
-<l:GridData  span="XL4 L4 M4 S6"/>
-</layoutData>
-</Input>
-<Label  text="{i18n>Matnr}"/>
-<Text  text="{viewModel>/BarcodeForm/Matnr}" >
-<layoutData>
-<l:GridData  span="XL4 L4 M4 S6"/>
-</layoutData>
-</Text>
-<Label  text="{i18n>Maktx}"/>
-<Text  text="{viewModel>/BarcodeForm/Maktx}" >
-<layoutData>
-<l:GridData  span="XL4 L4 M4 S6"/>
-</layoutData>
-</Text>
-</f:SimpleForm>
-<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanM="4" labelSpanS="4" emptySpanXL="0"   columnsXL="2"  singleContainerFullSize="false">
-<Label required="{viewModel>/ChargEnabled}"  text="{i18n>Xchpf}"/>
-<Input id="idXchpf"  change="onChangeCharg" editable="{= ${viewModel>/BarcodeForm/Xchpf} ? true : false }" value="{viewModel>/Charg}" enabled="{viewModel>/ChargEnabled}"  valueStateText="{viewModel>/valueStateChargT}"   valueState="{viewModel>/valueStateCharg}">
-<layoutData>
-<l:GridData  span="XL4 L4 M4 S6"/>
-</layoutData>
-</Input>
-<Label  text="{i18n>StockAddress}" required="{= ${viewModel>/EvDepoTipi} === 'MM' ? false : true }"/>
-<Input id="idType" visible="{= ${viewModel>/EvDepoTipi} === 'MM' ? false : true }" submit="onAddressCheck" change="onAddressCheck" value="{viewModel>/StockAddress}" valueState="{viewModel>/valueStateLgpla}" valueStateText="{viewModel>/valueStateLgplaText}">
-<layoutData>
-<l:GridData span="XL4 L4 M4 S6"/>
-</layoutData>
-</Input>
-<Label required="true" text="{i18n>Quantity}"/>
-<Input id="idQuan" submit="onPressCheckItem" change="onPressCheckItem" value="{viewModel>/Quantity}">
-<layoutData>
-<l:GridData span="XL4 L4 M4 S6"/>
-</layoutData>
-</Input>
-<Text text="{viewModel>/BarcodeForm/Meins}">
-    </Text>
-<Label id="_IDGenLabel10" text="{i18n>StockInfo}"/>
-<Text id="_IDGenText4"   text="{viewModel>/EvClabs}" >
-<layoutData>
-<l:GridData id="_IDGenGridData16"  span="XL4 L4 M4 S4"/>
-</layoutData>
-</Text>
-
-
-<Label  text=""/>
-<Button type="Accept" text="{i18n>addItem}" press="_onPressAddItem" icon="sap-icon://addr">
-<layoutData>
-<l:GridData span="XL4 L4 M4 S6"/>
-</layoutData>
-</Button>
-</f:SimpleForm>
-</l:Grid>
+			<Label required="{viewModel>/ChargEnabled}" text="{i18n>Xchpf}"/>
+			<Input id="idXchpf" change="onChangeCharg" editable="{= ${viewModel>/BarcodeForm/Xchpf} ? true : false }" value="{viewModel>/Charg}"
+				enabled="{viewModel>/ChargEnabled}" valueStateText="{viewModel>/valueStateChargT}" valueState="{viewModel>/valueStateCharg}">
+				<layoutData>
+					<l:GridData span="XL4 L4 M4 S6"/>
+				</layoutData>
+			</Input>
+			<Label text="{i18n>StockAddress}" required="{= ${viewModel>/EvDepoTipi} === 'MM' ? false : true }"/>
+			<Input id="idType" visible="{= ${viewModel>/EvDepoTipi} === 'MM' ? false : true }"   
+				showSuggestion="true"  suggest="onSuggest" showValueHelp="true"
+				suggestionItems="{viewModel>/LgortResults}"
+				valueHelpRequest="onValueHelpLgort" submit="onAddressCheck" change="onAddressCheck"
+				value="{viewModel>/StockAddress}" valueState="{viewModel>/valueStateLgpla}" valueStateText="{viewModel>/valueStateLgplaText}">
+				<layoutData>
+					<l:GridData span="XL4 L4 M4 S6"/>
+				</layoutData>
+				<suggestionItems>
+					<core:Item text="{viewModel>Lgpla}"/>
+				</suggestionItems>
+			</Input>
+			<Label required="true" text="{i18n>Quantity}"/>
+			<Input id="idQuan" submit="onPressCheckItem" change="onPressCheckItem" value="{viewModel>/Quantity}">
+				<layoutData>
+					<l:GridData span="XL4 L4 M4 S6"/>
+				</layoutData>
+			</Input>
+			<Text text="{viewModel>/BarcodeForm/Meins}"></Text>
+			<Label id="_IDGenLabel10" text="{i18n>StockInfo}"/>
+			<Text id="_IDGenText4" text="{viewModel>/EvClabs}">
+				<layoutData>
+					<l:GridData id="_IDGenGridData16" span="XL4 L4 M4 S4"/>
+				</layoutData>
+			</Text>
+			<Label width="auto" text=""/>
+			<Button   text="{i18n>clear}" press="onClear" tooltip="{i18n>clear}" type="Reject">
+				<layoutData>
+					<l:GridData span="XL4 L4 M4 S4"/>
+				</layoutData>
+			</Button>
+			<Button type="Accept" text="{i18n>addItem}" press="_onPressAddItem">
+				<layoutData>
+					<l:GridData span="XL4 L4 M4 S4"/>
+				</layoutData>
+			</Button>
+		</f:SimpleForm>
+	</l:Grid>
 </core:FragmentDefinition>

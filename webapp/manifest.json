@@ -1,148 +1,161 @@
 {
     "_version": "1.42.0",
     "sap.app": {
-        "id": "com.kormas.productiontrns",
-        "type": "application",
-        "i18n": "i18n/i18n.properties",
-        "applicationVersion": {
-            "version": "0.0.1"
+      "id": "com.kormas.productiontrns",
+      "type": "application",
+      "i18n": "i18n/i18n.properties",
+      "applicationVersion": {
+        "version": "0.0.1"
+      },
+      "title": "{{appTitle}}",
+      "description": "{{appDescription}}",
+      "resources": "resources.json",
+      "sourceTemplate": {
+        "id": "@sap/generator-fiori:worklist",
+        "version": "1.9.4",
+        "toolsId": "ff845646-8a29-49df-82ed-2892f347a977"
+      },
+      "dataSources": {
+        "mainService": {
+          "uri": "/sap/opu/odata/sap/ZEWM_PRODUCT_TRANS_SRV/",
+          "type": "OData",
+          "settings": {
+            "annotations": [],
+            "localUri": "localService/metadata.xml",
+            "odataVersion": "2.0"
+          }
         },
-        "title": "{{appTitle}}",
-        "description": "{{appDescription}}",
-        "resources": "resources.json",
-        "sourceTemplate": {
-            "id": "@sap/generator-fiori:worklist",
-            "version": "1.9.4",
-            "toolsId": "ff845646-8a29-49df-82ed-2892f347a977"
-        },
-        "dataSources": {
-            "mainService": {
-                "uri": "/sap/opu/odata/sap/ZEWM_PRODUCT_TRANS_SRV/",
-                "type": "OData",
-                "settings": {
-                    "annotations": [],
-                    "localUri": "localService/metadata.xml",
-                    "odataVersion": "2.0"
-                }
-            },
-            "ZEWM_COMMON_SRV": {
-                "uri": "/sap/opu/odata/sap/ZEWM_COMMON_SRV",
-                "type": "OData",
-                "settings": {
-                    "odataVersion": "2.0",
-                    "annotations": [],
-                    "localUri": "localService/ZEWM_COMMON_SRV/metadata.xml"
-                }
-            }
+        "ZEWM_COMMON_SRV": {
+          "uri": "/sap/opu/odata/sap/ZEWM_COMMON_SRV",
+          "type": "OData",
+          "settings": {
+            "odataVersion": "2.0",
+            "annotations": [],
+            "localUri": "localService/ZEWM_COMMON_SRV/metadata.xml"
+          }
         }
+      }
     },
     "sap.ui": {
-        "technology": "UI5",
-        "icons": {
-            "icon": "",
-            "favIcon": "",
-            "phone": "",
-            "phone@2": "",
-            "tablet": "",
-            "tablet@2": ""
-        },
-        "deviceTypes": {
-            "desktop": true,
-            "tablet": true,
-            "phone": true
-        }
+      "technology": "UI5",
+      "icons": {
+        "icon": "",
+        "favIcon": "",
+        "phone": "",
+        "phone@2": "",
+        "tablet": "",
+        "tablet@2": ""
+      },
+      "deviceTypes": {
+        "desktop": true,
+        "tablet": true,
+        "phone": true
+      }
     },
     "sap.ui5": {
-        "flexEnabled": true,
-        "dependencies": {
-            "minUI5Version": "1.102.8",
-            "libs": {
-                "sap.m": {},
-                "sap.ui.core": {},
-                "sap.f": {},
-                "sap.suite.ui.generic.template": {},
-                "sap.ui.comp": {},
-                "sap.ui.generic.app": {},
-                "sap.ui.table": {},
-                "sap.ushell": {}
-            }
-        },
-        "contentDensities": {
-            "compact": true,
-            "cozy": true
-        },
-        "models": {
-            "i18n": {
-                "type": "sap.ui.model.resource.ResourceModel",
-                "settings": {
-                    "bundleName": "com.kormas.productiontrns.i18n.i18n"
-                }
-            },
-            "viewModel": {
-                "type": "sap.ui.model.json.JSONModel",
-                "settings": {},
-                "uri": "./model/viewModel.json",
-                "preload": true
-            },
-            "message": {
-                "type": "sap.ui.model.json.JSONModel",
-                "settings": {},
-                "uri": "./model/message.json",
-                "preload": true
-            },
-            "commonService": {
-                "dataSource": "ZEWM_COMMON_SRV",
-                "preload": true,
-                "settings": {
-                    "defaultBindingMode": "TwoWay",
-                    "defaultCountMode": "Inline",
-                    "refreshAfterChange": false
-                }
-            },
-            "": {
-                "dataSource": "mainService",
-                "preload": true,
-                "settings": {}
-            }
-        },
-        "resources": {
-            "css": []
-        },
-        "routing": {
-            "config": {
-                "routerClass": "sap.m.routing.Router",
-                "viewType": "XML",
-                "viewPath": "com.kormas.productiontrns.view",
-                "controlId": "app",
-                "controlAggregation": "pages",
-                "bypassed": {
-                    "target": [
-                        "notFound"
-                    ]
-                },
-                "async": true
-            },
-            "routes": [
-                {
-                    "pattern": "",
-                    "name": "main",
-                    "target": [
-                        "main"
-                    ]
-                }
-            ],
-            "targets": {
-                "main": {
-                    "viewName": "Main",
-                    "viewId": "main"
-                }
-            }
-        },
-        "rootView": {
-            "viewName": "com.kormas.productiontrns.view.App",
-            "type": "XML",
-            "async": true,
-            "id": "app"
+      "flexEnabled": true,
+      "dependencies": {
+        "minUI5Version": "1.102.8",
+        "libs": {
+          "sap.m": {},
+          "sap.ui.core": {},
+          "sap.f": {},
+          "sap.suite.ui.generic.template": {},
+          "sap.ui.comp": {},
+          "sap.ui.generic.app": {},
+          "sap.ui.table": {},
+          "sap.ushell": {}
         }
+      },
+      "contentDensities": {
+        "compact": true,
+        "cozy": true
+      },
+      "models": {
+        "i18n": {
+          "type": "sap.ui.model.resource.ResourceModel",
+          "settings": {
+            "bundleName": "com.kormas.productiontrns.i18n.i18n"
+          }
+        },
+        "viewModel": {
+          "type": "sap.ui.model.json.JSONModel",
+          "settings": {},
+          "uri": "./model/viewModel.json",
+          "preload": true
+        },
+        "message": {
+          "type": "sap.ui.model.json.JSONModel",
+          "settings": {},
+          "uri": "./model/message.json",
+          "preload": true
+        },
+        "commonService": {
+          "dataSource": "ZEWM_COMMON_SRV",
+          "preload": true,
+          "settings": {
+            "defaultBindingMode": "TwoWay",
+            "defaultCountMode": "Inline",
+            "refreshAfterChange": false
+          }
+        },
+        "": {
+          "dataSource": "mainService",
+          "preload": true,
+          "settings": {}
+        }
+      },
+      "resources": {
+        "css": []
+      },
+      "routing": {
+        "config": {
+          "routerClass": "sap.m.routing.Router",
+          "viewType": "XML",
+          "viewPath": "com.kormas.productiontrns.view",
+          "controlId": "app",
+          "controlAggregation": "pages",
+          "bypassed": {
+            "target": ["notFound"]
+          },
+          "async": true
+        },
+        "routes": [
+          {
+                      "name": "First",
+                      "pattern": "",
+                      "titleTarget": "",
+                      "greedy": false,
+                      "target": [
+                          "First"
+                      ]
+                  },
+ 
+          {
+            "pattern": "main",
+            "name": "main",
+            "target": "main"
+        }
+        ],
+        "targets": {
+          "main": {
+            "viewName": "Main",
+            "viewId": "main"
+          },
+          "First": {
+            "viewName": "First",
+            "viewLevel": 2,
+            "viewId": "First"
+        }
+        }
+      },
+  
+      "rootView": {
+        "viewName": "com.kormas.productiontrns.view.App",
+        "type": "XML",
+        "async": true,
+        "id": "app"
+      }
     }
-}
+  }
+  

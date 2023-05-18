@@ -1,40 +1,8 @@
 <mvc:View xmlns:m="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.uxap"
 	controllerName="com.kormas.productiontrns.controller.Main">
 	<ObjectPageLayout showHeaderContent="{viewModel>/visibleHeader}" id="_IDGenObjectPageLayout1" showFooter="true">
-		<headerTitle >
-			<ObjectPageDynamicHeaderTitle id="_IDGenObjectPageDynamicHeaderTitle1">
-				<heading>
-					<m:FlexBox id="_IDGenFlexBox1" class="sapUiTinyMarginBottom" direction="Row" fitContainer="true" alignItems="Start" justifyContent="Start">
-						<m:VBox id="_IDGenHBox1">
-							<m:GenericTag id="_IDGenGenericTag1" text="{i18n>StockNumber}" design="StatusIconHidden" status="Error" class="sapUiSmallMarginBottom">
-								<m:ObjectNumber id="_IDGenObjectNumber1" state="Error" emphasized="false" number="{viewModel>/Form/Whnumwme}"/>
-							</m:GenericTag>
-							<m:GenericTag id="_IDGenGenericTag2" text="{i18n>Werks}" design="StatusIconHidden" status="Warning" class="sapUiSmallMarginBottom">
-								<m:ObjectNumber id="_IDGenObjectNumber2" state="Warning" emphasized="false" number="{viewModel>/Form/Werks}"/>
-							</m:GenericTag>
-							<m:Button id="_IDGenButton2" visible="{viewModel>/visibleBackButton}" type="Back" text="{i18n>BackButton}" press="onBackHeader"/>
-								<m:Button id="_IDGenButton3" type="Emphasized" text="{i18n>stockQuery}" press="onStockQuery"/>
-						</m:VBox>
-						<m:VBox id="_IDGenHBox2">
-							<m:GenericTag visible="{viewModel>/visibleGenericTagK}" id="_IDGenGenericTag3" text="{i18n>Klgort}" design="StatusIconHidden"
-								status="Success" class="sapUiSmallMarginBottom">
-								<m:ObjectNumber id="_IDGenObjectNumber3" state="Success" emphasized="false" number="{viewModel>/GenericKlgort}-{viewModel>/GenericKlgortT}"/>
-							</m:GenericTag>
-							<m:GenericTag visible="{viewModel>/visibleGenericTagH}" id="_IDGenGenericTag4" text="{i18n>Hlgort}" design="StatusIconHidden"
-								status="Success" class="sapUiSmallMarginBottom">
-								<m:ObjectNumber id="_IDGenObjectNumber4" state="Success" emphasized="false" number="{viewModel>/GenericHlgort}-{viewModel>/GenericHlgortT}"/>
-							</m:GenericTag>
-						</m:VBox>
-					</m:FlexBox>
-				</heading>
-				<actions>
-				
-				</actions>
-			</ObjectPageDynamicHeaderTitle>
-		</headerTitle>
-		<headerContent id="_IDGenObjectPageLayout31">
-			<core:Fragment type="XML" fragmentName="com.kormas.productiontrns.fragment.main.Header"/>
-		</headerContent>
+	
+		
 		<sections>
 			<ObjectPageSection id="_IDGenObjectPageSection1" title="{i18n>Information}">
 				<subSections>

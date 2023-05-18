@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: "2.6"
+metadata:
+  name: com.kormas.productiontrns
+type: application
+builder:
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**
+  customTasks:
+    - name: deploy-to-abap
+      afterTask: generateCachebusterInfo
+      configuration:
+        target:
+          destination: Kormas
+          url: http://krmss4dapp1.kormas.local:443
+          scp: true
+        app:
+          name: ZEWM_PRODUCT_T
+          description: Production Transfer
+          package: ZFIORI_EWM
+          transport: K4DK900644
+        exclude:
+          - /test/
