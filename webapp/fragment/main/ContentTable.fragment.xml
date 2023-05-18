@@ -2,18 +2,20 @@
 	<Table selectionChange="onPressItem" mode="SingleSelectLeft" id="idTable" width="auto" items="{/LogSet}" >
 		<headerToolbar>
 			<Toolbar id="addItemToolbar">
+					<Button text="{i18n>removeSelections}" press="onPressRemoveSelections" icon="sap-icon://activities" tooltip="{i18n>removeSelection}"
+					enabled="{viewModel>/DeleteEnabled}"/>
 				<ToolbarSpacer/>
 				<Button text="{i18n>deleteItem}" press="onPressDeleteItem" icon="sap-icon://delete" tooltip="{i18n>deleteItem}"
 					enabled="{viewModel>/DeleteEnabled}"/>
 			</Toolbar>
 		</headerToolbar>
 		<columns>
-			<Column hAlign="Center" demandPopin="true" minScreenWidth="Tablet">
+			<!-- <Column hAlign="Center" demandPopin="true" minScreenWidth="Tablet">
 				<Text text="{i18n>Klgort}"/>
 			</Column>
 			<Column hAlign="Center" minScreenWidth="Tablet" demandPopin="true">
 				<Text text="{i18n>Hlgort}"/>
-			</Column>
+			</Column> -->
 			<Column hAlign="Center" minScreenWidth="Tablet" demandPopin="true">
 				<Text text="{i18n>Matnr}"/>
 			</Column>
@@ -27,8 +29,8 @@
 		<items>
 			<ColumnListItem >
 				<cells>
-					<ObjectNumber state="Warning" number="{Klgort}"/>
-					<ObjectNumber state="Information" number="{Hlgort}"/>
+					<!-- <ObjectNumber state="Warning" number="{Klgort}"/>
+					<ObjectNumber state="Information" number="{Hlgort}"/> -->
 					<ObjectNumber state="Error" number="{Matnr}"/>
 					<ObjectNumber state="Success" number="{Charg}"/>
 					<ObjectNumber number="{path:'Quan' ,formatter: '.formatter.numberUnit'}" unit="{Unit}"/>

@@ -6,5 +6,6 @@
   "ChargEnabled": false,
   "visibleGenericTag": false,
   "visibleHeader": true,
-  "visibleBackButton": false
+  "visibleBackButton": false,
+  "Charg" : ""
 }

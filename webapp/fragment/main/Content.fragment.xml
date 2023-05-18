@@ -42,7 +42,9 @@
 				</suggestionItems>
 			</Input>
 			<Label required="true" text="{i18n>Quantity}"/>
-			<Input id="idQuan" submit="onPressCheckItem" change="onPressCheckItem" value="{viewModel>/Quantity}">
+			<Input id="idQuan" submit="onPressCheckItem" change="onPressCheckItem" value="{viewModel>/Quantity}"
+			enabled="{= ${viewModel>/Charg}.length > 0 ? true : false }"
+			>
 				<layoutData>
 					<l:GridData span="XL4 L4 M4 S6"/>
 				</layoutData>
@@ -54,7 +56,8 @@
 					<l:GridData id="_IDGenGridData16" span="XL4 L4 M4 S4"/>
 				</layoutData>
 			</Text>
-			<Label width="auto" text=""/>
+
+			<!-- <Label width="auto" text=""/>
 			<Button   text="{i18n>clear}" press="onClear" tooltip="{i18n>clear}" type="Reject">
 				<layoutData>
 					<l:GridData span="XL4 L4 M4 S4"/>
@@ -64,7 +67,22 @@
 				<layoutData>
 					<l:GridData span="XL4 L4 M4 S4"/>
 				</layoutData>
-			</Button>
+			</Button> -->
+
+
+<Label id="_IDGenLabel11"  text=""/>
+<Button  press="onClear" icon="sap-icon://sys-cancel" tooltip="{i18n>clear}" type="Reject">
+<layoutData>
+<l:GridData id="_IDGenGridData95" span="XL4 L4 M4 S4"/>
+</layoutData>
+</Button>
+<Button id="_IDGenButton1" type="Accept" press="_onPressAddItem" icon="sap-icon://add"
+            enabled="{= ${viewModel>/EvQuan} >= ${viewModel>/Quantity} &amp;&amp; ${viewModel>/clearBool}   ? true : false }"
+>
+<layoutData>
+<l:GridData id="_IDGenGridData9" span="XL4 L4 M4 S4"/>
+</layoutData>
+</Button>
 		</f:SimpleForm>
 	</l:Grid>
 </core:FragmentDefinition>

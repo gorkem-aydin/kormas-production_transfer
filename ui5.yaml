@@ -29,4 +29,4 @@ server:
       afterMiddleware: fiori-tools-appreload
       configuration:
         component: com.kormas.productiontrns
-        ui5Theme: sap_fiori_3
+        ui5Theme: sap_horizon

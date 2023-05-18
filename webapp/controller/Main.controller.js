@@ -6,6 +6,11 @@ sap.ui.define(
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     "sap/ui/core/Fragment",
+    "sap/m/library",
+    "sap/m/Dialog",
+    "sap/m/Button",
+    "sap/m/Text",
+    "sap/m/TextArea"
   ],
   function (
     BaseController,
@@ -13,7 +18,12 @@ sap.ui.define(
     formatter,
     Filter,
     FilterOperator,
-    Fragment
+    Fragment,
+    mobileLibrary,
+    Dialog,
+    Button,
+    Text,
+    TextArea
   ) {
     "use strict";
 
@@ -96,9 +106,26 @@ sap.ui.define(
           .finally(fnFinally);
       },
       onChangeCharg: function (oEvent) {
-        jQuery.sap.delayedCall(200, this, function () {
-          this.getView().byId("idQuan").focus();
-        });
+
+        let oViewModel = this.getView().getModel("viewModel"),
+          oDepoTipi = oViewModel.getProperty("/EvDepoTipi");
+
+
+        oViewModel.setProperty("/valueStateLgpla", "None");
+
+
+        if (oDepoTipi === "EWM") {
+          jQuery.sap.delayedCall(200, this, function () {
+            this.getView().byId("idType").focus();
+          });
+        }
+        else {
+          jQuery.sap.delayedCall(200, this, function () {
+            this.getView().byId("idQuan").focus();
+          });
+        }
+        oViewModel.refresh(true);
+
       },
       onAddressCheck: async function (oEvent) {
         let oLgnum = this.getModel("viewModel").getProperty("/EvLgnum"),
@@ -128,7 +155,7 @@ sap.ui.define(
           .catch(fnError)
           .finally(fnFinally);
       },
-      onPressCheckItem: async function (oEvent) {
+      onPressCheckItem: async function () {
         let oViewModel = this.getModel("viewModel"),
           oClabs = this.getModel("viewModel").getProperty("/Quantity"),
           oCharg = this.getModel("viewModel").getProperty("/Charg"),
@@ -170,9 +197,42 @@ sap.ui.define(
             .getSelectedItem()
             .getBindingContext().sPath;
 
-        oModel.remove(sPath);
-        oTable.removeSelections();
-        oViewModel.setProperty("/DeleteEnabled", true);
+
+        let DialogType = mobileLibrary.DialogType,
+          ButtonType = mobileLibrary.ButtonType;
+
+        if (!this.oApproveDialog) {
+          this.oApproveDialog = new Dialog({
+            type: DialogType.Message,
+            title: "Mesaj Kutusu",
+            content: new Text({
+              text: "Satır silinsin mi ?"
+            }),
+            beginButton: new Button({
+              type: ButtonType.Emphasized,
+              text: "Sil",
+              press: function () {
+                oModel.remove(sPath);
+                oTable.removeSelections();
+                oViewModel.setProperty("/DeleteEnabled", true);
+
+                this.oApproveDialog.close();
+              }.bind(this),
+            }),
+            endButton: new Button({
+              text: "Geri",
+              press: function () {
+                this.oApproveDialog.close();
+              }.bind(this),
+            }),
+          });
+        }
+
+        this.oApproveDialog.open();
+
+
+
+
       },
       onClear: async function () {
         let oViewModel = this.getModel("viewModel");
@@ -192,6 +252,13 @@ sap.ui.define(
         this.byId("_IDGenText4").setText("");
 
         oMessageModel.setProperty("/", []);
+
+
+        jQuery.sap.delayedCall(200, this, function () {
+          this.getView().byId("idBarcode").focus();
+        });
+
+
       },
       onStockQuery: async function () {
         let oCrossAppNavigator = sap.ushell.Container.getService(
@@ -309,6 +376,11 @@ sap.ui.define(
       },
       onBack: function () {
         history.go(-1);
+      },
+
+      onPressRemoveSelections: function () {
+
+        this.getView().byId("idTable").removeSelections();
 
       },
       /* =========================================================== */
@@ -318,6 +390,8 @@ sap.ui.define(
       _onObjectMatched: async function () {
         let oViewModel = this.getModel("viewModel"),
           that = this;
+
+         
 
         this.getModel("commonService").callFunction("/GetLgnum", {
           method: "GET",
@@ -329,6 +403,7 @@ sap.ui.define(
 
               that._getLgortValueHelp(oData.Werks);
               that._getLgplaSH();
+              that._onGetSuggestShelf();
             }
           },
           error: function (oError) { },
@@ -590,6 +665,74 @@ sap.ui.define(
             },
             error: function (oError) { },
           });
+      },
+      _getSuggestShelf: function (oLgort, oUname) {
+
+        let oModel = this.getModel();
+
+        return new Promise((fnResolve, fnReject) => {
+          let oParams = {
+            success: fnResolve,
+            error: fnReject,
+          },
+            sPath = oModel.createKey("/SuggestShelfSet", {
+              IvLgort: oLgort,
+              IvUname: oUname,
+            });
+          oModel.read(sPath, oParams);
+        });
+
+      },
+
+      _onGetSuggestShelf: async function () {
+        let oLgort = this.getModel("viewModel").getProperty("/Form/Hlgort"),
+          oUname = sap.ushell.Container.getService("UserInfo").getId();
+        //oUname: "BTC-FIORI"
+
+        if (oLgort === "") {
+          //
+          return;
+        }
+
+        let fnSuccess = (oData) => {
+          if (oData) {
+
+            this._setLgortValue(oData.EvLgpla)
+
+          }
+        },
+          fnError = (err) => { },
+          fnFinally = () => {
+
+            jQuery.sap.delayedCall(200, this, function () {
+              this.getView().byId("idBarcode").focus();
+            });
+            
+            // oViewModel.setProperty("/busy", false);
+          };
+        await this._getSuggestShelf(oLgort, oUname)
+          .then(fnSuccess)
+          .catch(fnError)
+          .finally(fnFinally);
+      },
+
+      _setLgortValue: function (oLgpla) {
+
+        let oViewModel = this.getModel("viewModel");
+
+        if (oLgpla) {
+          let oInput = this.byId("idType");
+          oInput.setValue(oLgpla);
+
+          oViewModel.setProperty("/StockAddress", oLgpla);
+          jQuery.sap.delayedCall(200, this, function () {
+            this.getView().byId("idQuan").focus();
+
+
+          });
+        }
+        oEvent.getSource().getBinding("items").filter([]);
+
       }
     });
   }

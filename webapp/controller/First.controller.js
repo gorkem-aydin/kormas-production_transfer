@@ -306,7 +306,7 @@ sap.ui.define(
           fnSuccess = (oData) => {
             oViewModel.setProperty("/EvDepoTipi", oData.EvDepoTipi);
             oViewModel.setProperty("/EvLgnum", oData.EvLgnum);
-            oViewModel.setProperty("/EvDepoTipi", "EWM");
+            // oViewModel.setProperty("/EvDepoTipi", "EWM");
           },
           fnError = (err) => { },
           fnFinally = () => {
