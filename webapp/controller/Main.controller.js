@@ -685,14 +685,9 @@ sap.ui.define(
       },
 
       _onGetSuggestShelf: async function () {
-        let oLgort = this.getModel("viewModel").getProperty("/Form/Hlgort"),
+        let oLgort = this.getModel("viewModel").getProperty("/Hlgort"),
           oUname = sap.ushell.Container.getService("UserInfo").getId();
         //oUname: "BTC-FIORI"
-
-        if (oLgort === "") {
-          //
-          return;
-        }
 
         let fnSuccess = (oData) => {
           if (oData) {
