@@ -161,6 +161,9 @@ sap.ui.define(
               oSelectedItem.getDescription()
             );
             oViewModel.setProperty("/Klgort", oSelectedItem.getTitle());
+            if (oViewModel.getProperty("/Hlgort")) {
+              this.onNext();
+            }
           }
         }
         oEvent.getSource().getBinding("items").filter([]);
@@ -189,9 +192,16 @@ sap.ui.define(
             oViewModel.setProperty("/GenericKlgort", oResults[0].Lgort);
             oViewModel.setProperty("/GenericKlgortT", oResults[0].Lgobe);
             oInput.setDescription(oResults[0].Lgobe);
-            jQuery.sap.delayedCall(200, this, function () {
-              this.getView().byId("_IDGenInput2").focus();
-            });
+            oViewModel.setProperty("/Klgort", oKlgort);
+            if (oViewModel.getProperty("/Hlgort")) {
+              this.onNext();
+            }
+            else {
+              jQuery.sap.delayedCall(200, this, function () {
+                this.getView().byId("_IDGenInput2").focus();
+              });
+            }
+
           } else {
             oViewModel.setProperty("/Klgort", "");
             oViewModel.setProperty("/GenericKlgort", "");
@@ -217,6 +227,7 @@ sap.ui.define(
           oViewModel.setProperty("/GenericHlgortT", oResults[0].Lgobe);
           oInput.setDescription(oResults[0].Lgobe);
           if (oKlgort) {
+            oViewModel.setProperty("/Hlgort", oHlgort);
             this._getLgnumType(oHlgort);
             //  oViewModel.setProperty("/visibleBackButton", true);
             // oViewModel.setProperty("/visibleHeader", false);
@@ -244,13 +255,14 @@ sap.ui.define(
             oSelectedItem.getDescription()
           );
           oViewModel.setProperty("/Hlgort", oSelectedItem.getTitle());
-          if (oViewModel.getProperty("/GenericKlgort")) {
+          if (oViewModel.getProperty("/Klgort")) {
+            this._getLgnumType(oSelectedItem.getTitle());
             //  this.getView().byId("_IDGenObjectPageLayout1").setHeaderExpanded(false);
             //    oViewModel.setProperty("/visibleHeader", false);
             //   oViewModel.setProperty("/visibleBackButton", true);
           }
 
-          this._getLgnumType(oSelectedItem.getTitle());
+
         }
         oEvent.getSource().getBinding("items").filter([]);
       },
@@ -306,6 +318,7 @@ sap.ui.define(
           fnSuccess = (oData) => {
             oViewModel.setProperty("/EvDepoTipi", oData.EvDepoTipi);
             oViewModel.setProperty("/EvLgnum", oData.EvLgnum);
+            this.onNext();
             // oViewModel.setProperty("/EvDepoTipi", "EWM");
           },
           fnError = (err) => { },
@@ -335,6 +348,7 @@ sap.ui.define(
 
       _getLgortValueHelp: function (oWerks) {
         let oViewModel = this.getModel("viewModel"),
+          that = this,
           oFilter = new sap.ui.model.Filter({
             filters: [
               new sap.ui.model.Filter(
@@ -351,6 +365,9 @@ sap.ui.define(
             success: function (oData) {
               oViewModel.setProperty("/HlgortResults", oData.results);
               oViewModel.setProperty("/KlgortResults", oData.results);
+              jQuery.sap.delayedCall(200, this, function () {
+                that.getView().byId("_IDGenInput1").focus();
+              });
             },
             error: function (oError) { },
           });

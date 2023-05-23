@@ -3,7 +3,7 @@
 		<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanM="4" labelSpanS="4" emptySpanXL="0" columnsXL="2"
 			singleContainerFullSize="false">
 			<Label text="{i18n>Barcode}"/>
-			<Input maxLength="13" id="idBarcode" value="{viewModel>/Barcode}" change="onChangeBarcode" submit="onChangeBarcode">
+			<Input maxLength="13" id="idBarcode" value="{viewModel>/Barcode}"  submit="onChangeBarcode">
 				<layoutData>
 					<l:GridData span="XL4 L4 M4 S6"/>
 				</layoutData>
@@ -22,7 +22,7 @@
 			</Text>
 		
 			<Label required="{viewModel>/ChargEnabled}" text="{i18n>Xchpf}"/>
-			<Input id="idXchpf" change="onChangeCharg" editable="{= ${viewModel>/BarcodeForm/Xchpf} ? true : false }" value="{viewModel>/Charg}"
+			<Input maxLength="10" id="idXchpf" submit="onChangeCharg" editable="{= ${viewModel>/BarcodeForm/Xchpf} ? true : false }" value="{viewModel>/Charg}"
 				enabled="{viewModel>/ChargEnabled}" valueStateText="{viewModel>/valueStateChargT}" valueState="{viewModel>/valueStateCharg}">
 				<layoutData>
 					<l:GridData span="XL4 L4 M4 S6"/>
@@ -32,7 +32,7 @@
 			<Input id="idType" visible="{= ${viewModel>/EvDepoTipi} === 'MM' ? false : true }"   
 				showSuggestion="true"  suggest="onSuggest" showValueHelp="true"
 				suggestionItems="{viewModel>/LgortResults}"
-				valueHelpRequest="onValueHelpLgort" submit="onAddressCheck" change="onAddressCheck"
+				valueHelpRequest="onValueHelpLgort" submit="onAddressCheck" 
 				value="{viewModel>/StockAddress}" valueState="{viewModel>/valueStateLgpla}" valueStateText="{viewModel>/valueStateLgplaText}">
 				<layoutData>
 					<l:GridData span="XL4 L4 M4 S6"/>
@@ -42,7 +42,7 @@
 				</suggestionItems>
 			</Input>
 			<Label required="true" text="{i18n>Quantity}"/>
-			<Input id="idQuan" submit="onPressCheckItem" change="onPressCheckItem" value="{viewModel>/Quantity}"
+			<Input id="idQuan" submit="onPressCheckItemQuan"  value="{viewModel>/Quantity}"
 			enabled="{= ${viewModel>/Charg}.length > 0 ? true : false }"
 			>
 				<layoutData>

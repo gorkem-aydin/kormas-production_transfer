@@ -81,6 +81,7 @@ sap.ui.define(
                   oViewModel.setProperty("/valueStateCharg", "Warning");
                   oViewModel.setProperty("/valueStateChargT", oData.Message);
                   oViewModel.setProperty("/Charg", "");
+                  oViewModel.setProperty("/EvClabs", "");
                   jQuery.sap.delayedCall(200, this, function () {
                     this.getView().byId("idXchpf").focus();
                   });
@@ -88,6 +89,7 @@ sap.ui.define(
                   oViewModel.setProperty("/ChargEnabled", false);
                   oViewModel.setProperty("/Charg", "");
                   oViewModel.setProperty("/valueStateCharg", "None");
+                  oViewModel.setProperty("/valueStateChargT", "");
                   this.onPressCheckItem();
                   jQuery.sap.delayedCall(200, this, function () {
                     this.getView().byId("idQuan").focus();
@@ -106,15 +108,11 @@ sap.ui.define(
           .finally(fnFinally);
       },
       onChangeCharg: function (oEvent) {
-
         let oViewModel = this.getView().getModel("viewModel"),
-          oDepoTipi = oViewModel.getProperty("/EvDepoTipi");
-
-
+          oLgnumType = oViewModel.getProperty("/EvDepoTipi");
         oViewModel.setProperty("/valueStateLgpla", "None");
-
-
-        if (oDepoTipi === "EWM") {
+        oViewModel.setProperty("/valueStateChargT", "");
+        if (oLgnumType === "EWM") {
           jQuery.sap.delayedCall(200, this, function () {
             this.getView().byId("idType").focus();
           });
@@ -124,8 +122,8 @@ sap.ui.define(
             this.getView().byId("idQuan").focus();
           });
         }
+        this.onPressCheckItem();
         oViewModel.refresh(true);
-
       },
       onAddressCheck: async function (oEvent) {
         let oLgnum = this.getModel("viewModel").getProperty("/EvLgnum"),
@@ -159,21 +157,23 @@ sap.ui.define(
         let oViewModel = this.getModel("viewModel"),
           oClabs = this.getModel("viewModel").getProperty("/Quantity"),
           oCharg = this.getModel("viewModel").getProperty("/Charg"),
-          oLgort = this.getModel("viewModel").getProperty("/Klgort"),
+          oLgort = this.getModel("viewModel").getProperty("/GenericKlgort"),
           //oLgort = "1000",
           oMatnr = this.getModel("viewModel").getProperty("/BarcodeForm/Matnr"),
-          oWerks = this.getModel("viewModel").getProperty("/Form/Werks"),
-          fnSuccess = (oData) => {
-            if (oData.Type === "E") {
-              oViewModel.setProperty("/Quantity", "");
-              return sap.m.MessageBox.error(oData.Message);
-            } else {
-              let iClabs = this._formatQuantity(oData.EvClabs);
-              oViewModel.setProperty("/EvClabs", iClabs);
+          oWerks = this.getModel("viewModel").getProperty("/Form/Werks");
+        if (oCharg && oLgort && oMatnr && oWerks) { 
+        let fnSuccess = (oData) => {
+          if (oData.Type === "E") {
+            oViewModel.setProperty("/Quantity", "");
+            return sap.m.MessageBox.error(oData.Message);
+          } else {
+            let iClabs = this._formatQuantity(oData.EvClabs);
+            oViewModel.setProperty("/EvClabs", iClabs);
+         //   this._onPressAddItem();
 
-              //   this._onPressAddItem(oClabs, oCharg, oLgort, oMatnr, oWerks);
-            }
-          },
+            //   this._onPressAddItem(oClabs, oCharg, oLgort, oMatnr, oWerks);
+          }
+        },
           fnError = (err) => { },
           fnFinally = () => {
             oViewModel.setProperty("/busy", false);
@@ -182,7 +182,39 @@ sap.ui.define(
           .then(fnSuccess)
           .catch(fnError)
           .finally(fnFinally);
-      },
+      }
+    },
+    onPressCheckItemQuan: async function () {
+      let oViewModel = this.getModel("viewModel"),
+      oClabs = this.getModel("viewModel").getProperty("/Quantity"),
+      oCharg = this.getModel("viewModel").getProperty("/Charg"),
+      oLgort = this.getModel("viewModel").getProperty("/GenericKlgort"),
+      //oLgort = "1000",
+      oMatnr = this.getModel("viewModel").getProperty("/BarcodeForm/Matnr"),
+      oWerks = this.getModel("viewModel").getProperty("/Form/Werks");
+    if (oClabs && oCharg && oLgort && oMatnr && oWerks) { 
+    let fnSuccess = (oData) => {
+      if (oData.Type === "E") {
+        oViewModel.setProperty("/Quantity", "");
+        return sap.m.MessageBox.error(oData.Message);
+      } else {
+      //  let iClabs = this._formatQuantity(oData.EvClabs);
+       // oViewModel.setProperty("/EvClabs", iClabs);
+        this._onPressAddItem();
+
+        //   this._onPressAddItem(oClabs, oCharg, oLgort, oMatnr, oWerks);
+      }
+    },
+      fnError = (err) => { },
+      fnFinally = () => {
+        oViewModel.setProperty("/busy", false);
+      };
+    await this._addressStock(oClabs, oCharg, oLgort, oMatnr, oWerks)
+      .then(fnSuccess)
+      .catch(fnError)
+      .finally(fnFinally);
+  }
+    },
       onPressItem: async function () {
         let oViewModel = this.getModel("viewModel");
         oViewModel.setProperty("/DeleteEnabled", true);
@@ -391,7 +423,7 @@ sap.ui.define(
         let oViewModel = this.getModel("viewModel"),
           that = this;
 
-         
+        this.onClear();
 
         this.getModel("commonService").callFunction("/GetLgnum", {
           method: "GET",
@@ -702,7 +734,7 @@ sap.ui.define(
             jQuery.sap.delayedCall(200, this, function () {
               this.getView().byId("idBarcode").focus();
             });
-            
+
             // oViewModel.setProperty("/busy", false);
           };
         await this._getSuggestShelf(oLgort, oUname)
