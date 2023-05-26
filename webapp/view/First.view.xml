@@ -11,7 +11,7 @@
 		</headerTitle>
 		<headerContent id="_IDGenObjectPageLayout31">
 			<m:FlexBox width="auto" direction="Column" alignItems="Baseline" >
-				<m:FlexBox width="auto" fitContainer="true" direction="Row" alignItems="Start" >
+				<m:FlexBox visible="false" width="auto" fitContainer="true" direction="Row" alignItems="Start" >
 					<m:GenericTag id="_IDGenGenericTag1" text="{i18n>StockNumber}" design="StatusIconHidden" status="Error" >
 						<m:ObjectNumber id="_IDGenObjectNumber1" state="Error" emphasized="false" number="{viewModel>/Form/Whnumwme}"/>
 					</m:GenericTag>
@@ -40,8 +40,6 @@
 				</subSections>
 			</ObjectPageSection>
 		</sections>
-		<footer>
-			<core:Fragment type="XML" fragmentName="com.kormas.productiontrns.fragment.first.Footer"/>
-		</footer>
+		
 	</ObjectPageLayout>
 </mvc:View>

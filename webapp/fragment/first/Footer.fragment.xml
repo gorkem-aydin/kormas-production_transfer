@@ -1,9 +1,8 @@
 <c:FragmentDefinition xmlns="sap.m" xmlns:c="sap.ui.core">
 	<OverflowToolbar>
     	
-        <Button width="auto" id="_IDGenButton3" type="Emphasized" text="{i18n>stockQuery}" press="onStockQuery"/>
+      
 		<ToolbarSpacer/>
-		<Button enabled="{= ${viewModel>/Klgort} &amp;&amp; ${viewModel>/Hlgort} ? true : false }" text="{i18n>next}" press="onNext"
-			icon="sap-icon://open-command-field"/>
+		
 	</OverflowToolbar>
 </c:FragmentDefinition>
