@@ -5,7 +5,7 @@
 			<Label text="{i18n>Barcode}"/>
 			<Input maxLength="13" id="idBarcode" value="{viewModel>/Barcode}"  submit="onChangeBarcode">
 				<layoutData>
-					<l:GridData span="XL4 L4 M4 S6"/>
+					<l:GridData span="XL8 L8 M8 S8"/>
 				</layoutData>
 			</Input>
 			<Label text="{i18n>Matnr}"/>
@@ -30,8 +30,8 @@
 			</Input>
 			<Label text="{i18n>StockAddress}" required="{= ${viewModel>/EvDepoTipi} === 'MM' ? false : true }"/>
 			<Input id="idType" visible="{= ${viewModel>/EvDepoTipi} === 'MM' ? false : true }"   
-				showSuggestion="true"  suggest="onSuggest" showValueHelp="true"
-				suggestionItems="{viewModel>/LgortResults}"
+			 showValueHelp="true"
+			
 				valueHelpRequest="onValueHelpLgort" submit="onAddressCheck" 
 				value="{viewModel>/StockAddress}" valueState="{viewModel>/valueStateLgpla}" valueStateText="{viewModel>/valueStateLgplaText}">
 				<layoutData>

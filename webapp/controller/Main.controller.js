@@ -79,7 +79,7 @@ sap.ui.define(
                 if (oData.Type === "W") {
                   oViewModel.setProperty("/ChargEnabled", true);
                   oViewModel.setProperty("/valueStateCharg", "Warning");
-                  oViewModel.setProperty("/valueStateChargT", oData.Message);
+                  oViewModel.setProperty("/valueStateChargT", "Parti Gir");
                   oViewModel.setProperty("/Charg", "");
                   oViewModel.setProperty("/EvClabs", "");
                   jQuery.sap.delayedCall(200, this, function () {
@@ -578,9 +578,9 @@ sap.ui.define(
                 ? (oStockAddress = "")
                 : oStockAddress,
             Unit: oViewModel.getProperty("/BarcodeForm/Meins"),
-            Klgort: oViewModel.getProperty("/Klgort"),
+            Klgort: oViewModel.getProperty("/GenericKlgort"),
             //	Klgort: "1000",
-            Hlgort: oViewModel.getProperty("/Hlgort"),
+            Hlgort: oViewModel.getProperty("/GenericHlgort"),
             //	Hlgort: "1002",
             Uname: sap.ushell.Container.getService("UserInfo").getId(),
             //Uname: uName,
@@ -717,9 +717,9 @@ sap.ui.define(
       },
 
       _onGetSuggestShelf: async function () {
-        let oLgort = this.getModel("viewModel").getProperty("/Hlgort"),
+        let oLgort = this.getModel("viewModel").getProperty("/GenericHlgort"),
           oUname = sap.ushell.Container.getService("UserInfo").getId();
-        //oUname: "BTC-FIORI"
+       // oUname= "BTC-FIORI";
 
         let fnSuccess = (oData) => {
           if (oData) {

@@ -319,7 +319,7 @@ sap.ui.define(
             oViewModel.setProperty("/EvDepoTipi", oData.EvDepoTipi);
             oViewModel.setProperty("/EvLgnum", oData.EvLgnum);
             this.onNext();
-            // oViewModel.setProperty("/EvDepoTipi", "EWM");
+          //   oViewModel.setProperty("/EvDepoTipi", "EWM");
           },
           fnError = (err) => { },
           fnFinally = () => {
