@@ -334,20 +334,11 @@ sap.ui.define(
           oFilter = new sap.ui.model.Filter({
             filters: [
               new sap.ui.model.Filter(
-                "Werks",
+                "Lgpla",
                 sap.ui.model.FilterOperator.Contains,
                 sValue
-              ),
-              new sap.ui.model.Filter(
-                "Lgort",
-                sap.ui.model.FilterOperator.Contains,
-                sValue
-              ),
-              new sap.ui.model.Filter(
-                "Lgobe",
-                sap.ui.model.FilterOperator.Contains,
-                sValue
-              ),
+              )
+             
             ],
             and: false,
           });
