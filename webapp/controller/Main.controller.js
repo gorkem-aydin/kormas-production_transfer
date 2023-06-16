@@ -161,60 +161,60 @@ sap.ui.define(
           //oLgort = "1000",
           oMatnr = this.getModel("viewModel").getProperty("/BarcodeForm/Matnr"),
           oWerks = this.getModel("viewModel").getProperty("/Form/Werks");
-        if (oCharg && oLgort && oMatnr && oWerks) { 
-        let fnSuccess = (oData) => {
-          if (oData.Type === "E") {
-            oViewModel.setProperty("/Quantity", "");
-            return sap.m.MessageBox.error(oData.Message);
-          } else {
-            let iClabs = this._formatQuantity(oData.EvClabs);
-            oViewModel.setProperty("/EvClabs", iClabs);
-         //   this._onPressAddItem();
+        if (oCharg && oLgort && oMatnr && oWerks) {
+          let fnSuccess = (oData) => {
+            if (oData.Type === "E") {
+              oViewModel.setProperty("/Quantity", "");
+              return sap.m.MessageBox.error(oData.Message);
+            } else {
+              let iClabs = this._formatQuantity(oData.EvClabs);
+              oViewModel.setProperty("/EvClabs", iClabs);
+              //   this._onPressAddItem();
 
-            //   this._onPressAddItem(oClabs, oCharg, oLgort, oMatnr, oWerks);
-          }
-        },
-          fnError = (err) => { },
-          fnFinally = () => {
-            oViewModel.setProperty("/busy", false);
-          };
-        await this._addressStock(oClabs, oCharg, oLgort, oMatnr, oWerks)
-          .then(fnSuccess)
-          .catch(fnError)
-          .finally(fnFinally);
-      }
-    },
-    onPressCheckItemQuan: async function () {
-      let oViewModel = this.getModel("viewModel"),
-      oClabs = this.getModel("viewModel").getProperty("/Quantity"),
-      oCharg = this.getModel("viewModel").getProperty("/Charg"),
-      oLgort = this.getModel("viewModel").getProperty("/GenericKlgort"),
-      //oLgort = "1000",
-      oMatnr = this.getModel("viewModel").getProperty("/BarcodeForm/Matnr"),
-      oWerks = this.getModel("viewModel").getProperty("/Form/Werks");
-    if (oClabs && oCharg && oLgort && oMatnr && oWerks) { 
-    let fnSuccess = (oData) => {
-      if (oData.Type === "E") {
-        oViewModel.setProperty("/Quantity", "");
-        return sap.m.MessageBox.error(oData.Message);
-      } else {
-      //  let iClabs = this._formatQuantity(oData.EvClabs);
-       // oViewModel.setProperty("/EvClabs", iClabs);
-        this._onPressAddItem();
+              //   this._onPressAddItem(oClabs, oCharg, oLgort, oMatnr, oWerks);
+            }
+          },
+            fnError = (err) => { },
+            fnFinally = () => {
+              oViewModel.setProperty("/busy", false);
+            };
+          await this._addressStock(oClabs, oCharg, oLgort, oMatnr, oWerks)
+            .then(fnSuccess)
+            .catch(fnError)
+            .finally(fnFinally);
+        }
+      },
+      onPressCheckItemQuan: async function () {
+        let oViewModel = this.getModel("viewModel"),
+          oClabs = this.getModel("viewModel").getProperty("/Quantity"),
+          oCharg = this.getModel("viewModel").getProperty("/Charg"),
+          oLgort = this.getModel("viewModel").getProperty("/GenericKlgort"),
+          //oLgort = "1000",
+          oMatnr = this.getModel("viewModel").getProperty("/BarcodeForm/Matnr"),
+          oWerks = this.getModel("viewModel").getProperty("/Form/Werks");
+        if (oClabs && oCharg && oLgort && oMatnr && oWerks) {
+          let fnSuccess = (oData) => {
+            if (oData.Type === "E") {
+              oViewModel.setProperty("/Quantity", "");
+              return sap.m.MessageBox.error(oData.Message);
+            } else {
+              //  let iClabs = this._formatQuantity(oData.EvClabs);
+              // oViewModel.setProperty("/EvClabs", iClabs);
+              this._onPressAddItem();
 
-        //   this._onPressAddItem(oClabs, oCharg, oLgort, oMatnr, oWerks);
-      }
-    },
-      fnError = (err) => { },
-      fnFinally = () => {
-        oViewModel.setProperty("/busy", false);
-      };
-    await this._addressStock(oClabs, oCharg, oLgort, oMatnr, oWerks)
-      .then(fnSuccess)
-      .catch(fnError)
-      .finally(fnFinally);
-  }
-    },
+              //   this._onPressAddItem(oClabs, oCharg, oLgort, oMatnr, oWerks);
+            }
+          },
+            fnError = (err) => { },
+            fnFinally = () => {
+              oViewModel.setProperty("/busy", false);
+            };
+          await this._addressStock(oClabs, oCharg, oLgort, oMatnr, oWerks)
+            .then(fnSuccess)
+            .catch(fnError)
+            .finally(fnFinally);
+        }
+      },
       onPressItem: async function () {
         let oViewModel = this.getModel("viewModel");
         oViewModel.setProperty("/DeleteEnabled", true);
@@ -223,11 +223,7 @@ sap.ui.define(
       onPressDeleteItem: async function (oEvent) {
         let oModel = this.getModel(),
           oTable = this.getView().byId("idTable"),
-          oViewModel = this.getModel("viewModel"),
-          sPath = this.getView()
-            .byId("idTable")
-            .getSelectedItem()
-            .getBindingContext().sPath;
+          oViewModel = this.getModel("viewModel");
 
 
         let DialogType = mobileLibrary.DialogType,
@@ -244,10 +240,14 @@ sap.ui.define(
               type: ButtonType.Emphasized,
               text: "Sil",
               press: function () {
+                let sPath = this.getView()
+                  .byId("idTable")
+                  .getSelectedItem()
+                  .getBindingContext().sPath;
                 oModel.remove(sPath);
                 oTable.removeSelections();
                 oViewModel.setProperty("/DeleteEnabled", true);
-
+                oModel.refresh(true);
                 this.oApproveDialog.close();
               }.bind(this),
             }),
@@ -261,16 +261,13 @@ sap.ui.define(
         }
 
         this.oApproveDialog.open();
-
-
-
-
       },
       onClear: async function () {
         let oViewModel = this.getModel("viewModel");
         sap.ui.getCore().getMessageManager().removeAllMessages();
-
         let oMessageModel = this.getModel("message");
+        let oStockAddressTmp = oViewModel.getProperty("/StockAddressTmp");
+        let oStockAddress = oViewModel.getProperty("/StockAddress");
 
         oViewModel.setProperty("/Hlgort", "");
         oViewModel.setProperty("/Klgort", "");
@@ -280,17 +277,14 @@ sap.ui.define(
         oViewModel.setProperty("/Quantity", "");
         oViewModel.setProperty("/EvQuan", "");
         oViewModel.setProperty("/EvUnit", "");
-        oViewModel.setProperty("/StockAddress", "");
+        if (oStockAddress !== oStockAddressTmp) {
+          oViewModel.setProperty("/StockAddress", "");
+        }
         this.byId("_IDGenText4").setText("");
-
         oMessageModel.setProperty("/", []);
-
-
         jQuery.sap.delayedCall(200, this, function () {
           this.getView().byId("idBarcode").focus();
         });
-
-
       },
       onStockQuery: async function () {
         let oCrossAppNavigator = sap.ushell.Container.getService(
@@ -338,7 +332,7 @@ sap.ui.define(
                 sap.ui.model.FilterOperator.Contains,
                 sValue
               )
-             
+
             ],
             and: false,
           });
@@ -431,6 +425,10 @@ sap.ui.define(
           },
           error: function (oError) { },
         });
+        jQuery.sap.delayedCall(200, this, function () {
+          this.getView().byId("idBarcode").focus();
+        });
+
       },
       _getMessagePopover: function () {
         let oView = this.getView();
@@ -556,7 +554,7 @@ sap.ui.define(
           oWerks = this.getModel("viewModel").getProperty("/Form/Werks"),
           oStockAddress = oViewModel.getProperty("/StockAddress"),
           that = this,
-          //	uName = "BTC-FIORI",
+          uName = "BTC-FIORI",
           oParams = {},
           oEntry = {
             Matnr: oMatnr,
@@ -573,9 +571,17 @@ sap.ui.define(
             //	Klgort: "1000",
             Hlgort: oViewModel.getProperty("/GenericHlgort"),
             //	Hlgort: "1002",
-            Uname: sap.ushell.Container.getService("UserInfo").getId(),
-            //Uname: uName,
+            //  Uname: sap.ushell.Container.getService("UserInfo").getId(),
+            Uname: uName,
           };
+        if (oViewModel.getProperty("/EvDepoTipi") === "EWM") {
+          if (oEntry.Lgpla === "") {
+            sap.m.MessageBox.error(this.getResourceBundle().getText("errorAddress"));
+            return;
+          }
+        }
+
+
         if (!oStockAddress) {
           delete oEntry.Lglpa;
         }
@@ -710,7 +716,7 @@ sap.ui.define(
       _onGetSuggestShelf: async function () {
         let oLgort = this.getModel("viewModel").getProperty("/GenericHlgort"),
           oUname = sap.ushell.Container.getService("UserInfo").getId();
-       // oUname= "BTC-FIORI";
+        oUname = "BTC-FIORI";
 
         let fnSuccess = (oData) => {
           if (oData) {
@@ -743,6 +749,7 @@ sap.ui.define(
           oInput.setValue(oLgpla);
 
           oViewModel.setProperty("/StockAddress", oLgpla);
+          oViewModel.setProperty("/StockAddressTmp", oLgpla);
           jQuery.sap.delayedCall(200, this, function () {
             this.getView().byId("idQuan").focus();
 

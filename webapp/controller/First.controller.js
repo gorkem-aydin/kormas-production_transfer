@@ -95,21 +95,13 @@ sap.ui.define(
         let sValue = oEvent.getParameter("value"),
           oFilter = new sap.ui.model.Filter({
             filters: [
-              new sap.ui.model.Filter(
-                "Werks",
-                sap.ui.model.FilterOperator.Contains,
-                sValue
-              ),
+           
               new sap.ui.model.Filter(
                 "Lgort",
                 sap.ui.model.FilterOperator.Contains,
                 sValue
               ),
-              new sap.ui.model.Filter(
-                "Lgobe",
-                sap.ui.model.FilterOperator.Contains,
-                sValue
-              ),
+             
             ],
             and: false,
           });
@@ -120,21 +112,13 @@ sap.ui.define(
         let sValue = oEvent.getParameter("value"),
           oFilter = new sap.ui.model.Filter({
             filters: [
-              new sap.ui.model.Filter(
-                "Werks",
-                sap.ui.model.FilterOperator.Contains,
-                sValue
-              ),
+            
               new sap.ui.model.Filter(
                 "Lgort",
                 sap.ui.model.FilterOperator.Contains,
                 sValue
-              ),
-              new sap.ui.model.Filter(
-                "Lgobe",
-                sap.ui.model.FilterOperator.Contains,
-                sValue
-              ),
+              )
+            
             ],
             and: false,
           });
@@ -154,11 +138,11 @@ sap.ui.define(
             oViewModel.setProperty("/Klgort", "");
           } else {
             oInput.setValue(oSelectedItem.getTitle());
-            oInput.setDescription(oSelectedItem.getDescription());
+         
             oViewModel.setProperty("/GenericKlgort", oSelectedItem.getTitle());
             oViewModel.setProperty(
               "/GenericKlgortT",
-              oSelectedItem.getDescription()
+              oSelectedItem.getTitle()
             );
             oViewModel.setProperty("/Klgort", oSelectedItem.getTitle());
             if (oViewModel.getProperty("/Hlgort")) {
@@ -179,10 +163,10 @@ sap.ui.define(
           sap.m.MessageBox.error(
             this.getResourceBundle().getText("errorKlgort")
           );
-          oInput.setDescription("");
+      //    oInput.setDescription("");
           oViewModel.setProperty("/Klgort", "");
           oViewModel.setProperty("/GenericKlgort", "");
-          oViewModel.setProperty("/GenericKlgortT", "");
+        //  oViewModel.setProperty("/GenericKlgortT", "");
           return;
         } else {
           const oResults = aKlgortResults.filter(
@@ -190,8 +174,8 @@ sap.ui.define(
           );
           if (oResults.length > 0) {
             oViewModel.setProperty("/GenericKlgort", oResults[0].Lgort);
-            oViewModel.setProperty("/GenericKlgortT", oResults[0].Lgobe);
-            oInput.setDescription(oResults[0].Lgobe);
+          //  oViewModel.setProperty("/GenericKlgortT", oResults[0].Lgobe);
+         //   oInput.setDescription(oResults[0].Lgobe);
             oViewModel.setProperty("/Klgort", oKlgort);
             if (oViewModel.getProperty("/Hlgort")) {
               this.onNext();
@@ -205,8 +189,8 @@ sap.ui.define(
           } else {
             oViewModel.setProperty("/Klgort", "");
             oViewModel.setProperty("/GenericKlgort", "");
-            oViewModel.setProperty("/GenericKlgortT", "");
-            oInput.setDescription("");
+          //  oViewModel.setProperty("/GenericKlgortT", "");
+          //  oInput.setDescription("");
             sap.m.MessageBox.error(
               this.getResourceBundle().getText("errorLgort")
             );
@@ -224,8 +208,8 @@ sap.ui.define(
         );
         if (oResults.length > 0) {
           oViewModel.setProperty("/GenericHlgort", oResults[0].Lgort);
-          oViewModel.setProperty("/GenericHlgortT", oResults[0].Lgobe);
-          oInput.setDescription(oResults[0].Lgobe);
+     //     oViewModel.setProperty("/GenericHlgortT", oResults[0].Lgobe);
+     //     oInput.setDescription(oResults[0].Lgobe);
           if (oKlgort) {
             oViewModel.setProperty("/Hlgort", oHlgort);
             this._getLgnumType(oHlgort);
@@ -235,8 +219,8 @@ sap.ui.define(
         } else {
           oViewModel.setProperty("/Hlgort", "");
           oViewModel.setProperty("/GenericHlgort", "");
-          oViewModel.setProperty("/GenericHlgortT", "");
-          oInput.setDescription("");
+       //   oViewModel.setProperty("/GenericHlgortT", "");
+      //    oInput.setDescription("");
           sap.m.MessageBox.error(
             this.getResourceBundle().getText("errorLgort")
           );
@@ -278,9 +262,6 @@ sap.ui.define(
         let oViewModel = this.getModel("viewModel"),
           that = this;
         this._clearData();
-
-
-
         this.getModel("commonService").callFunction("/GetLgnum", {
           method: "GET",
           success: function (oData, response) {
@@ -288,8 +269,7 @@ sap.ui.define(
               sap.m.MessageBox.error(oData.Message);
             } else {
               oViewModel.setProperty("/Form", oData);
-
-              that._getLgortValueHelp(oData.Werks);
+              that._getLgortValueHelp();
             }
           },
           error: function (oError) { },
@@ -346,28 +326,38 @@ sap.ui.define(
         });
       },
 
-      _getLgortValueHelp: function (oWerks) {
+      _getLgortValueHelp: function () {
         let oViewModel = this.getModel("viewModel"),
           that = this,
           oFilter = new sap.ui.model.Filter({
             filters: [
               new sap.ui.model.Filter(
-                "Werks",
+                "Uname",
                 sap.ui.model.FilterOperator.EQ,
-                oWerks
+               // sap.ushell.Container.getService("UserInfo").getId()
+                "BTC-FIORI"
               ),
             ],
           });
         this.getView()
-          .getModel("commonService")
-          .read("/WareHouseSet", {
+          .getModel()
+          .read("/KlgortSHSet", {
             filters: oFilter.aFilters,
-            success: function (oData) {
+            success: function (oData,oResponse) {
+                         oViewModel.setProperty("/KlgortResults", oData.results);
+                     },
+            error: function (oError) { },
+          });
+          this.getView()
+          .getModel()
+          .read("/HlgortSHSet", {
+            filters: oFilter.aFilters,
+            success: function (oData,oResponse) {
               oViewModel.setProperty("/HlgortResults", oData.results);
-              oViewModel.setProperty("/KlgortResults", oData.results);
               jQuery.sap.delayedCall(200, this, function () {
                 that.getView().byId("_IDGenInput1").focus();
               });
+         
             },
             error: function (oError) { },
           });
