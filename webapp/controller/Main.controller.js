@@ -554,7 +554,7 @@ sap.ui.define(
           oWerks = this.getModel("viewModel").getProperty("/Form/Werks"),
           oStockAddress = oViewModel.getProperty("/StockAddress"),
           that = this,
-          uName = "BTC-FIORI",
+          // uName = "BTC-FIORI",
           oParams = {},
           oEntry = {
             Matnr: oMatnr,
@@ -571,8 +571,8 @@ sap.ui.define(
             //	Klgort: "1000",
             Hlgort: oViewModel.getProperty("/GenericHlgort"),
             //	Hlgort: "1002",
-            //  Uname: sap.ushell.Container.getService("UserInfo").getId(),
-            Uname: uName,
+            Uname: sap.ushell.Container.getService("UserInfo").getId(),
+            // Uname: uName,
           };
         if (oViewModel.getProperty("/EvDepoTipi") === "EWM") {
           if (oEntry.Lgpla === "") {
@@ -716,7 +716,7 @@ sap.ui.define(
       _onGetSuggestShelf: async function () {
         let oLgort = this.getModel("viewModel").getProperty("/GenericHlgort"),
           oUname = sap.ushell.Container.getService("UserInfo").getId();
-        oUname = "BTC-FIORI";
+        //   oUname = "BTC-FIORI";
 
         let fnSuccess = (oData) => {
           if (oData) {
