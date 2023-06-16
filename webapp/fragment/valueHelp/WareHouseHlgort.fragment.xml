@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
 	<SelectDialog id="_IDGenSelectDialog1" title="{i18n>HlgortSH}" class="sapUiPopupWithPadding" items="{viewModel>/HlgortResults}" search="onSearchHlgort"
 		confirm="onCloseHlgort" cancel="onCloseHlgort">
-		<StandardListItem id="_IDGenStandardListItem1" title="{viewModel>Lgort}"/>
+		<StandardListItem id="_IDGenStandardListItem1" title="{viewModel>Lgort}" description="{viewModel>Lgobe}"  />
 	</SelectDialog>
 </core:FragmentDefinition>
