@@ -116,8 +116,7 @@ sap.ui.define(
           jQuery.sap.delayedCall(200, this, function () {
             this.getView().byId("idType").focus();
           });
-        }
-        else {
+        } else {
           jQuery.sap.delayedCall(200, this, function () {
             this.getView().byId("idQuan").focus();
           });
@@ -224,7 +223,6 @@ sap.ui.define(
         let oModel = this.getModel(),
           oTable = this.getView().byId("idTable"),
           oViewModel = this.getModel("viewModel");
-
 
         let DialogType = mobileLibrary.DialogType,
           ButtonType = mobileLibrary.ButtonType;
@@ -425,9 +423,7 @@ sap.ui.define(
           },
           error: function (oError) { },
         });
-        jQuery.sap.delayedCall(200, this, function () {
-          this.getView().byId("idBarcode").focus();
-        });
+
 
       },
       _getMessagePopover: function () {
@@ -480,7 +476,6 @@ sap.ui.define(
           .catch(fnError)
           .finally(fnFinally);
       },
-
 
       _getBarcodeDetail: async function (oBarcode, oWerks) {
         let oModel = this.getModel("commonService");
@@ -554,7 +549,7 @@ sap.ui.define(
           oWerks = this.getModel("viewModel").getProperty("/Form/Werks"),
           oStockAddress = oViewModel.getProperty("/StockAddress"),
           that = this,
-          // uName = "BTC-FIORI",
+        //  uName = "BTC-FIORI",
           oParams = {},
           oEntry = {
             Matnr: oMatnr,
@@ -562,17 +557,14 @@ sap.ui.define(
             Quan: oClabs,
             Lgnum: oLgnum,
             Werks: oWerks,
-            Lgpla:
-              oStockAddress === undefined
-                ? (oStockAddress = "")
-                : oStockAddress,
+            Lgpla: oStockAddress === undefined ? (oStockAddress = "") : oStockAddress,
             Unit: oViewModel.getProperty("/BarcodeForm/Meins"),
             Klgort: oViewModel.getProperty("/GenericKlgort"),
             //	Klgort: "1000",
             Hlgort: oViewModel.getProperty("/GenericHlgort"),
             //	Hlgort: "1002",
-            Uname: sap.ushell.Container.getService("UserInfo").getId(),
-            // Uname: uName,
+              Uname: sap.ushell.Container.getService("UserInfo").getId(),
+          //  Uname: uName,
           };
         if (oViewModel.getProperty("/EvDepoTipi") === "EWM") {
           if (oEntry.Lgpla === "") {
@@ -581,7 +573,6 @@ sap.ui.define(
           }
         }
 
-
         if (!oStockAddress) {
           delete oEntry.Lglpa;
         }
@@ -589,7 +580,6 @@ sap.ui.define(
           sap.m.MessageBox.error(this.getResourceBundle().getText("errorQuantity"));
           return;
         }
-
 
         let fnSuccess = (oData) => {
           sap.ui.core.BusyIndicator.hide();
@@ -715,23 +705,19 @@ sap.ui.define(
 
       _onGetSuggestShelf: async function () {
         let oLgort = this.getModel("viewModel").getProperty("/GenericHlgort"),
-          oUname = sap.ushell.Container.getService("UserInfo").getId();
-        //   oUname = "BTC-FIORI";
-
+            oUname = sap.ushell.Container.getService("UserInfo").getId();
+         // oUname = "BTC-FIORI";
         let fnSuccess = (oData) => {
           if (oData) {
-
             this._setLgortValue(oData.EvLgpla)
-
           }
         },
-          fnError = (err) => { },
+          fnError = (err) => {
+          },
           fnFinally = () => {
-
-            jQuery.sap.delayedCall(200, this, function () {
+            jQuery.sap.delayedCall(500, this, function () {
               this.getView().byId("idBarcode").focus();
             });
-
             // oViewModel.setProperty("/busy", false);
           };
         await this._getSuggestShelf(oLgort, oUname)
@@ -739,7 +725,6 @@ sap.ui.define(
           .catch(fnError)
           .finally(fnFinally);
       },
-
       _setLgortValue: function (oLgpla) {
 
         let oViewModel = this.getModel("viewModel");
@@ -752,7 +737,6 @@ sap.ui.define(
           oViewModel.setProperty("/StockAddressTmp", oLgpla);
           jQuery.sap.delayedCall(200, this, function () {
             this.getView().byId("idQuan").focus();
-
 
           });
         }
