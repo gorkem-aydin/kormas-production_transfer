@@ -137,12 +137,12 @@ sap.ui.define(
               oViewModel.setProperty("/valueStateLgplaText", oData.Message);
             } else {
               oViewModel.setProperty("/valueStateLgpla", "Success");
-
-              jQuery.sap.delayedCall(200, this, function () {
-                this.getView().byId("idQuan").focus();
-              });
-
-              //	this._onLgnumAuth(String(oLgpla), iControl);
+              /*
+                            jQuery.sap.delayedCall(200, this, function () {
+                              this.getView().byId("idQuan").focus();
+                            });
+              */
+              this._onLgnumAuth(String(oLgpla));
             }
           },
           fnError = (err) => { },
@@ -194,6 +194,7 @@ sap.ui.define(
           oMatnr = this.getModel("viewModel").getProperty("/BarcodeForm/Matnr"),
           oWerks = this.getModel("viewModel").getProperty("/Form/Werks");
         if (oClabs && oCharg && oLgort && oMatnr && oWerks) {
+
           let fnSuccess = (oData) => {
             if (oData.Type === "E") {
               oViewModel.setProperty("/Quantity", "");
@@ -348,9 +349,9 @@ sap.ui.define(
           oInput.setValue(oSelectedItem.getTitle());
 
           oViewModel.setProperty("/StockAddress", oSelectedItem.getTitle());
-          jQuery.sap.delayedCall(200, this, function () {
-            this.getView().byId("idQuan").focus();
-          });
+
+          this._onLgnumAuth(String(oSelectedItem.getTitle()));
+
         }
         oEvent.getSource().getBinding("items").filter([]);
       },
@@ -421,6 +422,7 @@ sap.ui.define(
               that._getLgortValueHelp(oData.Werks);
               that._getLgplaSH();
               that._onGetSuggestShelf();
+         
             }
           },
           error: function (oError) { },
@@ -444,29 +446,43 @@ sap.ui.define(
         return this._pMessagePopover;
       },
 
-      _onLgnumAuth: async function (oLgpla, iControl) {
+      _onLgnumAuthFirst: async function (oLgpla) {
         let oViewModel = this.getModel("viewModel"),
           fnSuccess = (oData) => {
-            if (iControl > 0) {
-              if (oData.Type === "E") {
-                oViewModel.setProperty("/valueStateKlgort", "Error");
-                oViewModel.setProperty("/valueStateKlgortT", oData.Message);
-              } else {
-                oViewModel.setProperty("/valueStateKlgort", "Success");
-                oViewModel.setProperty("/valueStateKlgortT", oData.Message);
-
-                jQuery.sap.delayedCall(200, this, function () {
-                  //		this.getView().byId("_IDGenInput2").focus();
-                });
-              }
+            if (oData.Type === "E") {
+              oViewModel.setProperty("/valueStateLgpla", "Error");
+              oViewModel.setProperty("/valueStateLgplaText", oData.Message);
+              oViewModel.setProperty("/StockAddress", "");
             } else {
-              if (oData.Type === "E") {
-                oViewModel.setProperty("/valueStateHlgort", "Error");
-                oViewModel.setProperty("/valueStateHlgortT", oData.Message);
-              } else {
-                oViewModel.setProperty("/valueStateHlgort", "Success");
-                oViewModel.setProperty("/valueStateHlgortT", oData.Message);
-              }
+              oViewModel.setProperty("/valueStateLgpla", "Success");
+              oViewModel.setProperty("/valueStateLgplaText", oData.Message);
+              jQuery.sap.delayedCall(500, this, function () {
+                this.getView().byId("idBarcode").focus();
+              });
+            }
+          },
+          fnError = (err) => { },
+          fnFinally = () => {
+            oViewModel.setProperty("/busy", false);
+          };
+        await this._getLgpla(String(oLgpla))
+          .then(fnSuccess)
+          .catch(fnError)
+          .finally(fnFinally);
+      },
+      _onLgnumAuth: async function (oLgpla) {
+        let oViewModel = this.getModel("viewModel"),
+          fnSuccess = (oData) => {
+            if (oData.Type === "E") {
+              oViewModel.setProperty("/valueStateLgpla", "Error");
+              oViewModel.setProperty("/valueStateLgplaText", oData.Message);
+              oViewModel.setProperty("/StockAddress", "");
+            } else {
+              oViewModel.setProperty("/valueStateLgpla", "Success");
+              oViewModel.setProperty("/valueStateLgplaText", oData.Message);
+              jQuery.sap.delayedCall(500, this, function () {
+                this.getView().byId("idQuan").focus();
+              });
             }
           },
           fnError = (err) => { },
@@ -551,7 +567,7 @@ sap.ui.define(
           oWerks = this.getModel("viewModel").getProperty("/Form/Werks"),
           oStockAddress = oViewModel.getProperty("/StockAddress"),
           that = this,
-        //  uName = "BTC-FIORI",
+       //     uName = "BTC-FIORI",
           oParams = {},
           oEntry = {
             Matnr: oMatnr,
@@ -565,8 +581,8 @@ sap.ui.define(
             //	Klgort: "1000",
             Hlgort: oViewModel.getProperty("/GenericHlgort"),
             //	Hlgort: "1002",
-             Uname: sap.ushell.Container.getService("UserInfo").getId(),
-        //    Uname: uName,
+            Uname: sap.ushell.Container.getService("UserInfo").getId(),
+          //   Uname: uName,
           };
         if (oViewModel.getProperty("/EvDepoTipi") === "EWM") {
           if (oEntry.Lgpla === "") {
@@ -726,7 +742,7 @@ sap.ui.define(
       _onGetSuggestShelf: async function () {
         let oLgort = this.getModel("viewModel").getProperty("/GenericHlgort"),
           oUname = sap.ushell.Container.getService("UserInfo").getId();
-      //  oUname = "BTC-FIORI";
+      //      oUname = "BTC-FIORI";
         let fnSuccess = (oData) => {
           if (oData) {
             this._setLgortValue(oData.EvLgpla)
@@ -755,11 +771,8 @@ sap.ui.define(
 
           oViewModel.setProperty("/StockAddress", oLgpla);
           oViewModel.setProperty("/StockAddressTmp", oLgpla);
-          jQuery.sap.delayedCall(200, this, function () {
-            this.getView().byId("idQuan").focus();
-
-          });
-        }
+          this._onLgnumAuthFirst(oViewModel.getProperty("/StockAddress"));
+        }    
         oEvent.getSource().getBinding("items").filter([]);
 
       }
