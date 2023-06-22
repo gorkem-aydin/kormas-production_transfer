@@ -10,7 +10,8 @@ sap.ui.define(
     "sap/m/Dialog",
     "sap/m/Button",
     "sap/m/Text",
-    "sap/m/TextArea"
+    "sap/m/TextArea",
+    "sap/m/MessageBox"
   ],
   function (
     BaseController,
@@ -23,7 +24,8 @@ sap.ui.define(
     Dialog,
     Button,
     Text,
-    TextArea
+    TextArea,
+    MessageBox
   ) {
     "use strict";
 
@@ -563,8 +565,8 @@ sap.ui.define(
             //	Klgort: "1000",
             Hlgort: oViewModel.getProperty("/GenericHlgort"),
             //	Hlgort: "1002",
-              Uname: sap.ushell.Container.getService("UserInfo").getId(),
-          //  Uname: uName,
+             Uname: sap.ushell.Container.getService("UserInfo").getId(),
+        //    Uname: uName,
           };
         if (oViewModel.getProperty("/EvDepoTipi") === "EWM") {
           if (oEntry.Lgpla === "") {
@@ -572,7 +574,6 @@ sap.ui.define(
             return;
           }
         }
-
         if (!oStockAddress) {
           delete oEntry.Lglpa;
         }
@@ -585,6 +586,9 @@ sap.ui.define(
           sap.ui.core.BusyIndicator.hide();
           this.onClear();
           this.getModel().refresh(true);
+          if (oData.Type === "E") {
+            this._getMessageandFocus(oData.Message);
+          }
         },
           fnError = (err) => {
             sap.ui.core.BusyIndicator.hide();
@@ -596,6 +600,22 @@ sap.ui.define(
           .then(fnSuccess)
           .catch(fnError)
           .finally(fnFinally);
+      },
+      _focusAddress: function () {
+        jQuery.sap.delayedCall(500, this, function () {
+          this.getView().byId("idBarcode").focus();
+        });
+      },
+      _getMessageandFocus: function (oMessage) {
+        var that = this;
+        MessageBox.show(
+          oMessage, {
+          icon: MessageBox.Icon.ERROR,
+          actions: [MessageBox.Action.OK],
+          emphasizedAction: MessageBox.Action.OK,
+          onClose: function (oAction) { that._focusAddress() }
+        }
+        );
       },
       _formatQuantity: function (oQuantitiy) {
         return parseFloat(oQuantitiy);
@@ -705,8 +725,8 @@ sap.ui.define(
 
       _onGetSuggestShelf: async function () {
         let oLgort = this.getModel("viewModel").getProperty("/GenericHlgort"),
-            oUname = sap.ushell.Container.getService("UserInfo").getId();
-         // oUname = "BTC-FIORI";
+          oUname = sap.ushell.Container.getService("UserInfo").getId();
+      //  oUname = "BTC-FIORI";
         let fnSuccess = (oData) => {
           if (oData) {
             this._setLgortValue(oData.EvLgpla)
