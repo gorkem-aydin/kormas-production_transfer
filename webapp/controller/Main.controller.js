@@ -269,8 +269,9 @@ sap.ui.define(
         let oMessageModel = this.getModel("message");
         let oStockAddressTmp = oViewModel.getProperty("/StockAddressTmp");
         let oStockAddress = oViewModel.getProperty("/StockAddress");
-
         oViewModel.setProperty("/Hlgort", "");
+        oViewModel.setProperty("/valueStateLgpla", "None");
+        oViewModel.setProperty("/valueStateLgplaText", "");
         oViewModel.setProperty("/Klgort", "");
         oViewModel.setProperty("/Barcode", "");
         oViewModel.setProperty("/BarcodeForm", "");
