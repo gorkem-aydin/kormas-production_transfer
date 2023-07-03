@@ -423,7 +423,7 @@ sap.ui.define(
               that._getLgortValueHelp(oData.Werks);
               that._getLgplaSH();
               that._onGetSuggestShelf();
-         
+
             }
           },
           error: function (oError) { },
@@ -568,7 +568,7 @@ sap.ui.define(
           oWerks = this.getModel("viewModel").getProperty("/Form/Werks"),
           oStockAddress = oViewModel.getProperty("/StockAddress"),
           that = this,
-       //     uName = "BTC-FIORI",
+          //     uName = "BTC-FIORI",
           oParams = {},
           oEntry = {
             Matnr: oMatnr,
@@ -583,7 +583,7 @@ sap.ui.define(
             Hlgort: oViewModel.getProperty("/GenericHlgort"),
             //	Hlgort: "1002",
             Uname: sap.ushell.Container.getService("UserInfo").getId(),
-          //   Uname: uName,
+            //   Uname: uName,
           };
         if (oViewModel.getProperty("/EvDepoTipi") === "EWM") {
           if (oEntry.Lgpla === "") {
@@ -739,11 +739,45 @@ sap.ui.define(
         });
 
       },
-
+      _loginPage: function () {
+        window.history.go(-1);
+      
+      },
       _onGetSuggestShelf: async function () {
-        let oLgort = this.getModel("viewModel").getProperty("/GenericHlgort"),
-          oUname = sap.ushell.Container.getService("UserInfo").getId();
-      //      oUname = "BTC-FIORI";
+        let oLgort = this.getModel("viewModel").getProperty("/GenericHlgort");
+        var that = this;
+        if (oLgort === undefined) {
+
+
+          MessageBox.show(
+            this.getResourceBundle().getText("infoLoginPage"), {
+            icon: MessageBox.Icon.INFORMATION,
+            actions: [MessageBox.Action.OK],
+            emphasizedAction: MessageBox.Action.OK,
+            onClose: function (oAction) { that._loginPage() }
+          }
+          );
+          return;
+
+          /*  MessageBox.information(this.getResourceBundle().getText("infoLoginPage"), {
+             
+           
+               details: function () {
+                 return new Promise(function (resolve, reject) {
+                   setTimeout(function () {
+                     resolve("Asynchronously fetched details");
+                   }, 3000); // Simulate network request delay
+                 });
+               },
+               contentWidth: "100px"
+              
+             });
+            // sap.m.MessageBox.information(this.getResourceBundle().getText("infoLoginPage"));
+           
+             */
+        }
+        let oUname = sap.ushell.Container.getService("UserInfo").getId();
+        //      oUname = "BTC-FIORI";
         let fnSuccess = (oData) => {
           if (oData) {
             this._setLgortValue(oData.EvLgpla)
@@ -773,7 +807,7 @@ sap.ui.define(
           oViewModel.setProperty("/StockAddress", oLgpla);
           oViewModel.setProperty("/StockAddressTmp", oLgpla);
           this._onLgnumAuthFirst(oViewModel.getProperty("/StockAddress"));
-        }    
+        }
         oEvent.getSource().getBinding("items").filter([]);
 
       }

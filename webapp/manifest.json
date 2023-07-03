@@ -115,21 +115,14 @@
           "viewPath": "com.kormas.productiontrns.view",
           "controlId": "app",
           "controlAggregation": "pages",
-          "bypassed": {
-            "target": ["notFound"]
-          },
-          "async": true
+                   "async": true
         },
         "routes": [
-          {
-                      "name": "First",
-                      "pattern": "",
-                      "titleTarget": "",
-                      "greedy": false,
-                      "target": [
-                          "First"
-                      ]
-                  },
+            {
+            "pattern": "",
+            "name": "First",
+            "target": "First"
+        },
  
           {
             "pattern": "main",

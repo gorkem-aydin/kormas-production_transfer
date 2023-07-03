@@ -344,8 +344,8 @@ sap.ui.define(
               new sap.ui.model.Filter(
                 "Uname",
                 sap.ui.model.FilterOperator.EQ,
-               sap.ushell.Container.getService("UserInfo").getId()
-             //  "BTC-FIORI"
+              sap.ushell.Container.getService("UserInfo").getId()
+            //  "BTC-FIORI"
               ),
             ],
           });
