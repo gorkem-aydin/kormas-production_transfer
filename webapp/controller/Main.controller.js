@@ -128,23 +128,27 @@ sap.ui.define(
       },
       onAddressCheck: async function (oEvent) {
         let oLgnum = this.getModel("viewModel").getProperty("/EvLgnum"),
-          oLgpla = oEvent.getSource().getValue(),
-          oViewModel = this.getModel("viewModel"),
-          oInput = this.byId("idType"),
-          fnSuccess = (oData) => {
-            if (oData.Type === "E") {
-              oViewModel.setProperty("/valueStateLgpla", "Error");
-              oViewModel.setProperty("/valueStateLgplaText", oData.Message);
-            } else {
-              oViewModel.setProperty("/valueStateLgpla", "Success");
-              /*
-                            jQuery.sap.delayedCall(200, this, function () {
-                              this.getView().byId("idQuan").focus();
-                            });
-              */
-              this._onLgnumAuth(String(oLgpla));
-            }
-          },
+          oLgpla = oEvent.getSource().getValue().toUpperCase();
+
+        let oViewModel = this.getModel("viewModel"),
+          oInput = this.byId("idType");
+        oViewModel.setProperty("/StockAddress", oLgpla);
+
+
+        let fnSuccess = (oData) => {
+          if (oData.Type === "E") {
+            oViewModel.setProperty("/valueStateLgpla", "Error");
+            oViewModel.setProperty("/valueStateLgplaText", oData.Message);
+          } else {
+            oViewModel.setProperty("/valueStateLgpla", "Success");
+            /*
+                          jQuery.sap.delayedCall(200, this, function () {
+                            this.getView().byId("idQuan").focus();
+                          });
+            */
+            this._onLgnumAuth(String(oLgpla));
+          }
+        },
           fnError = (err) => { },
           fnFinally = () => {
             oViewModel.setProperty("/busy", false);
@@ -741,7 +745,7 @@ sap.ui.define(
       },
       _loginPage: function () {
         window.history.go(-1);
-      
+
       },
       _onGetSuggestShelf: async function () {
         let oLgort = this.getModel("viewModel").getProperty("/GenericHlgort");
