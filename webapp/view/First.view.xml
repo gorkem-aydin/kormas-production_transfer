@@ -40,6 +40,8 @@
 				</subSections>
 			</ObjectPageSection>
 		</sections>
-		
+			<footer>
+			<core:Fragment type="XML" fragmentName="com.kormas.productiontrns.fragment.first.Footer"/>
+		</footer>
 	</ObjectPageLayout>
 </mvc:View>

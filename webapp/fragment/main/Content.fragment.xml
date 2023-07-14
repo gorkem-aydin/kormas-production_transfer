@@ -32,7 +32,7 @@
 			<Input id="idType" visible="{= ${viewModel>/EvDepoTipi} === 'MM' ? false : true }"   
 			 showValueHelp="true"
 			
-				valueHelpRequest="onValueHelpLgort" submit="onAddressCheck" 
+				valueHelpRequest="onValueHelpLgort" submit="onAddressCheck" change="onAddressCheck"
 				value="{viewModel>/StockAddress}" valueState="{viewModel>/valueStateLgpla}" valueStateText="{viewModel>/valueStateLgplaText}">
 				<layoutData>
 					<l:GridData span="XL4 L4 M4 S6"/>
